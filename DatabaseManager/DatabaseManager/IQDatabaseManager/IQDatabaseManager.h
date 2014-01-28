@@ -46,16 +46,32 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 -(NSArray*)tableNames;
 -(NSDictionary*)attributesForTable:(NSString*)tableName;
 
-//Fetch Objects
+#pragma mark - Fetch Records
+/*Predicate and sort discriptor*/
 - (NSArray *)allObjectsFromTable:(NSString*)tableName;
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
 - (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate;
-//Fetch first object
+- (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor;
+- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate sortDescriptor:(NSSortDescriptor*)descriptor;
+
+/*Key Value predicate and sortDescriptor*/
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor;
+
+
+#pragma mark - First/Last object
+/*First object*/
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName;
-- (NSManagedObject *)lastObjectFromTable: (NSString*)tableName;
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create;
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate;
+
+/*Last object*/
+- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName;
+- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create;
+- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
+- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate;
+
+
 
 //Insert object
 - (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary;

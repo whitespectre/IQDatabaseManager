@@ -143,20 +143,8 @@
 
 
 #pragma mark - Fetch Records
--(NSArray*)allObjectsFromTable:(NSString*)tableName
-{
-    return [self allObjectsFromTable:tableName where:nil equals:nil];
-}
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value
-{
-    NSPredicate *predicate;
-    if (key && value)   predicate = [NSPredicate predicateWithFormat:@"self.%@ == %@",key,value];
-
-    return [self allObjectsFromTable:tableName wherePredicate:predicate];
-}
-
-- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate
+- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate sortDescriptor:(NSSortDescriptor*)descriptor
 {
     //Creating fetch request object for fetching records.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:tableName];
@@ -166,11 +154,43 @@
 #endif
     
     if (predicate)  [fetchRequest setPredicate:predicate];
-    
+    if (descriptor) [fetchRequest setSortDescriptors:[NSArray arrayWithObject:descriptor]];
+
     return [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
 }
 
+- (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor
+{
+    return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor];
+}
 
+- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate
+{
+    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:nil];
+}
+
+-(NSArray*)allObjectsFromTable:(NSString*)tableName
+{
+    return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:nil];
+}
+
+
+/***Key Value predicate***/
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor
+{
+    NSPredicate *predicate;
+    if (key && value)   predicate = [NSPredicate predicateWithFormat:@"self.%@ == %@",key,value];
+
+    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor];
+}
+
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value
+{
+    return [self allObjectsFromTable:tableName where:key equals:value sortDescriptor:nil];
+}
+
+
+/*First/Last object*/
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName
 {
     return [[self allObjectsFromTable:tableName] firstObject];
@@ -191,6 +211,15 @@
     return object;
 }
 
+- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create
+{
+    NSManagedObject *object = [self lastObjectFromTable:tableName];
+    
+    if (object == nil && create == YES)    object = [self insertRecordInTable:tableName withAttribute:nil];
+    
+    return object;
+}
+
 
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value
 {
@@ -200,6 +229,16 @@
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate
 {
     return [[self allObjectsFromTable:tableName wherePredicate:predicate] firstObject];
+}
+
+- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value
+{
+    return [[self allObjectsFromTable:tableName where:key equals:value] lastObject];
+}
+
+- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate
+{
+    return [[self allObjectsFromTable:tableName wherePredicate:predicate] lastObject];
 }
 
 
