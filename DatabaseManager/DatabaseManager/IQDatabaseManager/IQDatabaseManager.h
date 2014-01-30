@@ -57,6 +57,8 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 - (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
 - (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor;
 
+//- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSDictionary*)keysEqualValues;
+
 
 #pragma mark - First/Last object
 /*First object*/

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D844221189A9EC7008152A6 /* IQTableOfflineStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D844220189A9EC7008152A6 /* IQTableOfflineStore.m */; };
+		9D844224189A9EC7008152A6 /* IQTableOfflineImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D844223189A9EC7008152A6 /* IQTableOfflineImageStore.m */; };
 		9D84469D1897F7AC000DD533 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D84469C1897F7AC000DD533 /* Foundation.framework */; };
 		9D84469F1897F7AC000DD533 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D84469E1897F7AC000DD533 /* CoreGraphics.framework */; };
 		9D8446A11897F7AC000DD533 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8446A01897F7AC000DD533 /* UIKit.framework */; };
@@ -37,6 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9D84421F189A9EC7008152A6 /* IQTableOfflineStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineStore.h; sourceTree = "<group>"; };
+		9D844220189A9EC7008152A6 /* IQTableOfflineStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineStore.m; sourceTree = "<group>"; };
+		9D844222189A9EC7008152A6 /* IQTableOfflineImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineImageStore.h; sourceTree = "<group>"; };
+		9D844223189A9EC7008152A6 /* IQTableOfflineImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineImageStore.m; sourceTree = "<group>"; };
 		9D8446991897F7AC000DD533 /* DatabaseManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DatabaseManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D84469C1897F7AC000DD533 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9D84469E1897F7AC000DD533 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -88,6 +94,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9D84421E189A9E6B008152A6 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				9D844222189A9EC7008152A6 /* IQTableOfflineImageStore.h */,
+				9D844223189A9EC7008152A6 /* IQTableOfflineImageStore.m */,
+				9D84421F189A9EC7008152A6 /* IQTableOfflineStore.h */,
+				9D844220189A9EC7008152A6 /* IQTableOfflineStore.m */,
+				9D8446D71897F7D9000DD533 /* IQTableUnsentStore.h */,
+				9D8446D81897F7D9000DD533 /* IQTableUnsentStore.m */,
+			);
+			name = Entities;
+			sourceTree = "<group>";
+		};
 		9D8446901897F7AC000DD533 = {
 			isa = PBXGroup;
 			children = (
@@ -165,12 +184,11 @@
 		9D8446D11897F7D9000DD533 /* IQDatabaseManager */ = {
 			isa = PBXGroup;
 			children = (
+				9D84421E189A9E6B008152A6 /* Entities */,
 				9D8446D21897F7D9000DD533 /* IQDatabase.xcdatamodeld */,
 				9D8446D41897F7D9000DD533 /* IQDatabaseConstants.h */,
 				9D8446D51897F7D9000DD533 /* IQDatabaseManager.h */,
 				9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */,
-				9D8446D71897F7D9000DD533 /* IQTableUnsentStore.h */,
-				9D8446D81897F7D9000DD533 /* IQTableUnsentStore.m */,
 			);
 			path = IQDatabaseManager;
 			sourceTree = "<group>";
@@ -274,9 +292,11 @@
 			files = (
 				9D8446B31897F7AC000DD533 /* ViewController.m in Sources */,
 				9D8446AD1897F7AC000DD533 /* AppDelegate.m in Sources */,
+				9D844224189A9EC7008152A6 /* IQTableOfflineImageStore.m in Sources */,
 				9D8446DA1897F7D9000DD533 /* IQDatabaseManager.m in Sources */,
 				9D8446DB1897F7D9000DD533 /* IQTableUnsentStore.m in Sources */,
 				9D8446D91897F7D9000DD533 /* IQDatabase.xcdatamodeld in Sources */,
+				9D844221189A9EC7008152A6 /* IQTableOfflineStore.m in Sources */,
 				9D8446A91897F7AC000DD533 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

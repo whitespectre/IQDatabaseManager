@@ -24,19 +24,6 @@
 #ifndef Synchronize_Manager_IQDatabaseConstants_h
 #define Synchronize_Manager_IQDatabaseConstants_h
 
-#pragma mark - Table Names
-
-#define TABLE_OFFLINE_STORE                     @"IQTableOfflineStore"
-#define TABLE_OFFLINE_IMAGE_STORE               @"IQTableOfflineImageStore"
-#define TABLE_UNSENT_STORE                      @"IQTableUnsentStore"
-
-#define kURL        @"url"
-#define kData       @"data"
-#define kImage      @"image"
-#define kStatus     @"status"
-#define kUrlRequest @"urlRequest"
-
-
 
 typedef void (^OfflineCompletionBlock)(id result);
 typedef void (^CompletionBlock)(id result, NSError *error);

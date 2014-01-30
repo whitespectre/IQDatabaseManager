@@ -29,6 +29,13 @@
 #define CORE_DATA_SQLITE_FILE_NAME              @"IQDatabase.sqlite"
 
 
+#define kURL        @"url"
+#define kData       @"data"
+#define kImage      @"image"
+#define kStatus     @"status"
+#define kUrlRequest @"urlRequest"
+
+
 //iOS 5 compatibility method
 @implementation NSArray (iOS5_firstObject)
 
@@ -62,7 +69,7 @@
 @interface IQDatabaseManager (Reset)
 
 //Implemented in (Download) extension.
--(void)resetPostStatus;
+-(void)synchronizeAtLaunch;
 
 @end
 
@@ -93,7 +100,9 @@
     if (sharedDataBase == nil)
     {
         sharedDataBase = [[self alloc] init];
-        [sharedDataBase resetPostStatus];
+        
+        //Must not write this in init method.
+        [sharedDataBase synchronizeAtLaunch];
     }
     
     return sharedDataBase;
@@ -379,6 +388,10 @@
 @end
 
 
+#pragma mark - IQDatabaseManager (Download)
+
+#import "IQTableOfflineImageStore.h"
+#import "IQTableOfflineStore.h"
 #import "IQTableUnsentStore.h"
 
 @implementation IQDatabaseManager (Download)
@@ -405,72 +418,87 @@
 
 -(void)sendRequest:(NSURLRequest*)request forTable:(NSString*)tableName completion:(CompletionBlock)completion
 {
+    //Creating a record for requested url. Updating if it exist.
+    NSString *url = request.URL.absoluteString;
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:url,kURL,[NSNumber numberWithInteger:IQObjectUpdateStatusUpdating],kStatus, nil];
+    NSManagedObject *object = [self insertRecordInTable:tableName withAttribute:dict updateOnExistKey:kURL equals:url];
+    
    //Creating a connection and request for data.
     [NSURLConnection sendAsynchronousRequest:request queue:_queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
+
         if (error)
         {
+            [self updateRecord:object withAttribute:[NSDictionary dictionaryWithObject:kStatus forKey:[NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated]]];
+            
             [IQDatabaseManager sendData:nil error:error onCompletion:completion];
             return;
         }
-
-        NSString *url = request.URL.absoluteString;
         
         //If data was found && there was no error, and statusCode is 200(OK).
         if (data && error == nil && [(NSHTTPURLResponse*)response statusCode] == 200)
         {
-            if ([tableName isEqualToString:TABLE_OFFLINE_STORE])
+            if ([tableName isEqualToString:NSStringFromClass([IQTableOfflineStore class])])
             {
-                //Creating a record dictionary
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,kURL,data,kData, nil];
-                
-                //Update or Insert
-                [self insertRecordInTable:tableName withAttribute:dict updateOnExistKey:kURL equals:url];
+                //Update
+                NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:data,kData,[NSNumber numberWithInteger:IQObjectUpdateStatusUpdated],kStatus, nil];
+                [self updateRecord:object withAttribute:dict];
 
                 [IQDatabaseManager sendData:data error:error onCompletion:completion];
             }
-            else if([tableName isEqualToString:TABLE_OFFLINE_IMAGE_STORE])
+            else if([tableName isEqualToString:NSStringFromClass([IQTableOfflineImageStore class])])
             {
                 UIImage *image = [UIImage imageWithData:data];
                 
-                //Creating a record dictionary
-                NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:url,kURL,image,kImage, nil];
-                
-                [self insertRecordInTable:tableName withAttribute:dict updateOnExistKey:kURL equals:url];
+                if (image)
+                {
+                    //Update
+                    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:image,kImage,[NSNumber numberWithInteger:IQObjectUpdateStatusUpdated],kStatus, nil];
+                    [self updateRecord:object withAttribute:dict];
+                }
+                else
+                {
+                    //Update
+                    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated],kStatus, nil];
+                    [self updateRecord:object withAttribute:dict];
+                }
 
                 [IQDatabaseManager sendData:image error:nil onCompletion:completion];
             }
         }
         else
         {
+            //Update
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated],kStatus, nil];
+            [self updateRecord:object withAttribute:dict];
+
             [IQDatabaseManager sendData:data error:error onCompletion:completion];
         }
     }];
-
 }
+
 
 #pragma mark - Offilne Store
 -(void)dataFromURL:(NSString*)url offlineCompletion:(OfflineCompletionBlock)offlineBlock onlineCompletion:(CompletionBlock)onlineBlock
 {
     //Getting first object
-    __block NSManagedObject *object = [self firstObjectFromTable:TABLE_OFFLINE_STORE where:kURL equals:url];
+    IQTableOfflineStore *object = (IQTableOfflineStore*)[self firstObjectFromTable:NSStringFromClass([IQTableOfflineStore class]) where:kURL equals:url];
     
-    [IQDatabaseManager sendData:[object valueForKey:kData] onOfflineCompletion:offlineBlock];
+    [IQDatabaseManager sendData:[object data] onOfflineCompletion:offlineBlock];
 
     //Creating a url request.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
 
-    [self sendRequest:request forTable:TABLE_OFFLINE_STORE completion:onlineBlock];
+    [self sendRequest:request forTable:NSStringFromClass([IQTableOfflineStore class]) completion:onlineBlock];
 }
 
 -(void)dataFromURL:(NSString*)url Completion:(CompletionBlock)completionBlock
 {
     //Getting first object
-    __block NSManagedObject *object = [self firstObjectFromTable:TABLE_OFFLINE_STORE where:kURL equals:url];
+    IQTableOfflineStore *object = (IQTableOfflineStore*)[self firstObjectFromTable:NSStringFromClass([IQTableOfflineStore class]) where:kURL equals:url];
     
-    if (object)
+    if (object && [object data])
     {
-        [IQDatabaseManager sendData:[object valueForKey:kData] error:nil onCompletion:completionBlock];
+        [IQDatabaseManager sendData:[object data] error:nil onCompletion:completionBlock];
     }
     else
     {
@@ -481,18 +509,18 @@
 #pragma mark - Offilne Image
 -(void)imageFromURL:(NSString*)url Completion:(ImageCompletionBlock)completionBlock
 {
-    __block NSManagedObject *object = [self firstObjectFromTable:TABLE_OFFLINE_IMAGE_STORE where:kURL equals:url];
+    IQTableOfflineImageStore *object = (IQTableOfflineImageStore*)[self firstObjectFromTable:NSStringFromClass([IQTableOfflineImageStore class]) where:kURL equals:url];
     
-    if (object)
+    if (object && [object image])
     {
-        [IQDatabaseManager sendData:[object valueForKey:kImage] error:nil onCompletion:completionBlock];
+        [IQDatabaseManager sendData:[object image] error:nil onCompletion:completionBlock];
     }
     else
     {
         //Creating a url request.
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
         
-        [self sendRequest:request forTable:TABLE_OFFLINE_IMAGE_STORE completion:completionBlock];
+        [self sendRequest:request forTable:NSStringFromClass([IQTableOfflineImageStore class]) completion:completionBlock];
     }
 }
 
@@ -548,7 +576,7 @@
     //Creating a record dictionary
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:request,kUrlRequest,[NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated],kStatus, nil];
     
-    IQTableUnsentStore *object = (IQTableUnsentStore*)[self insertRecordInTable:TABLE_UNSENT_STORE withAttribute:dict];
+    IQTableUnsentStore *object = (IQTableUnsentStore*)[self insertRecordInTable:NSStringFromClass([IQTableUnsentStore class]) withAttribute:dict];
     
     [self postObject:object withCompletion:completionBlock];
 }
@@ -568,32 +596,46 @@
 -(void)synchronizeOfflineStoreTable
 {
     //Getting all objects
-    NSArray *allObjects = [self allObjectsFromTable:TABLE_OFFLINE_STORE];
+    NSArray *allObjects = [self allObjectsFromTable:NSStringFromClass([IQTableOfflineStore class])];
     
-    for (NSManagedObject *object in allObjects)
+    for (IQTableOfflineStore *object in allObjects)
     {
-        //Updating each object
-        [self dataFromURL:[object valueForKey:kURL] offlineCompletion:nil onlineCompletion:nil];
+        if ([[object status] integerValue] == IQObjectUpdateStatusNotUpdated)
+        {
+            //Updating each object
+            [self dataFromURL:[object url] offlineCompletion:nil onlineCompletion:nil];
+        }
     }
 }
 
 -(void)synchronizeImageStoreTable
 {
-    //Blank
+    //Getting all objects
+    NSArray *allObjects = [self allObjectsFromTable:NSStringFromClass([IQTableOfflineImageStore class])];
+    
+    for (IQTableOfflineImageStore *object in allObjects)
+    {
+        if ([[object status] integerValue] == IQObjectUpdateStatusNotUpdated)
+        {
+            [self imageFromURL:[object url] Completion:nil];
+        }
+    }
 }
 
 -(void)synchronizeUnsentStore
 {
     //Getting all objects
-    NSArray *allObjects = [self allObjectsFromTable:TABLE_UNSENT_STORE];
+    NSArray *allObjects = [self allObjectsFromTable:NSStringFromClass([IQTableUnsentStore class])];
     
     for (IQTableUnsentStore *object in allObjects)
     {
-        [self postObject:object withCompletion:nil];
+        if ([[object status] integerValue] == IQObjectUpdateStatusNotUpdated)
+        {
+            [self postObject:object withCompletion:nil];
+        }
     }
 }
 
-//Synchronizing
 -(void)synchronize
 {
     [self synchronizeOfflineStoreTable];
@@ -601,20 +643,28 @@
     [self synchronizeUnsentStore];
 }
 
+//Synchronizing at launching.
+-(void)synchronizeAtLaunch
+{
+    [self resetStatus];
+    
+    [self synchronize];
+}
+
 #pragma mark - Flush management
 -(void)flushOfflineImages
 {
-    [self flushTable:TABLE_OFFLINE_IMAGE_STORE];
+    [self flushTable:NSStringFromClass([IQTableOfflineImageStore class])];
 }
 
 -(void)flushOfflineData
 {
-    [self flushTable:TABLE_OFFLINE_STORE];
+    [self flushTable:NSStringFromClass([IQTableOfflineStore class])];
 }
 
 -(void)flushUnsentData
 {
-    [self flushTable:TABLE_UNSENT_STORE];
+    [self flushTable:NSStringFromClass([IQTableUnsentStore class])];
 }
 
 -(void)flushAll
@@ -624,15 +674,26 @@
     [self flushUnsentData];
 }
 
--(void)resetPostStatus
+-(void)resetStatus
 {
-    //Getting all objects
-    NSArray *allObjects = [self allObjectsFromTable:TABLE_UNSENT_STORE];
+    NSArray *unsentRecords = [self allObjectsFromTable:NSStringFromClass([IQTableUnsentStore class])];
+    //Unsent record
+    for (IQTableUnsentStore *object in unsentRecords)
+        if ([object.status integerValue] == IQObjectUpdateStatusUpdating)
+            object.status = [NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated];
     
-    for (IQTableUnsentStore *object in allObjects)
-    {
-        [object setStatus:[NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated]];
-    }
+    NSArray *imageRecords = [self allObjectsFromTable:NSStringFromClass([IQTableUnsentStore class])];
+    //Image store
+    for (IQTableOfflineImageStore *object in imageRecords)
+        if ([object.status integerValue] == IQObjectUpdateStatusUpdating)
+            object.status = [NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated];
+    
+    NSArray *dataRecords = [self allObjectsFromTable:NSStringFromClass([IQTableUnsentStore class])];
+    //Data store
+    for (IQTableOfflineStore *object in dataRecords)
+        if ([object.status integerValue] == IQObjectUpdateStatusUpdating)
+            object.status = [NSNumber numberWithInteger:IQObjectUpdateStatusNotUpdated];
+
     [self save];
 }
 
