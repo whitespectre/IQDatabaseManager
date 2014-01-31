@@ -15,7 +15,6 @@
 		9D8446A71897F7AC000DD533 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D8446A51897F7AC000DD533 /* InfoPlist.strings */; };
 		9D8446A91897F7AC000DD533 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446A81897F7AC000DD533 /* main.m */; };
 		9D8446AD1897F7AC000DD533 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446AC1897F7AC000DD533 /* AppDelegate.m */; };
-		9D8446B01897F7AC000DD533 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D8446AE1897F7AC000DD533 /* Main.storyboard */; };
 		9D8446B31897F7AC000DD533 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446B21897F7AC000DD533 /* ViewController.m */; };
 		9D8446B51897F7AC000DD533 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D8446B41897F7AC000DD533 /* Images.xcassets */; };
 		9D8446BC1897F7AC000DD533 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8446BB1897F7AC000DD533 /* XCTest.framework */; };
@@ -26,6 +25,17 @@
 		9D8446D91897F7D9000DD533 /* IQDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446D21897F7D9000DD533 /* IQDatabase.xcdatamodeld */; };
 		9D8446DA1897F7D9000DD533 /* IQDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */; };
 		9D8446DB1897F7D9000DD533 /* IQTableUnsentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446D81897F7D9000DD533 /* IQTableUnsentStore.m */; };
+		9D8DF0B9189BDDBD005AEB86 /* MyDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0B8189BDDBD005AEB86 /* MyDatabaseManager.m */; };
+		9D8DF0BD189BDE27005AEB86 /* RecordTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0BC189BDE27005AEB86 /* RecordTable.m */; };
+		9D8DF0C1189BE6E7005AEB86 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C0189BE6E7005AEB86 /* Settings.m */; };
+		9D8DF0C3189BEC02005AEB86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C2189BEC02005AEB86 /* Main.storyboard */; };
+		9D8DF0C9189BECBA005AEB86 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C8189BECBA005AEB86 /* UpdateViewController.m */; };
+		9D8DF0CC189BECC5005AEB86 /* InsertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0CB189BECC5005AEB86 /* InsertViewController.m */; };
+		9D8DF0D2189BF1AA005AEB86 /* AllRecordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D1189BF1AA005AEB86 /* AllRecordsViewController.m */; };
+		9D8DF0D8189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D4189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png */; };
+		9D8DF0D9189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */; };
+		9D8DF0DA189BF4B0005AEB86 /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */; };
+		9D8DF0DD189BF642005AEB86 /* RecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0DC189BF642005AEB86 /* RecordCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +63,6 @@
 		9D8446AA1897F7AC000DD533 /* DatabaseManager-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DatabaseManager-Prefix.pch"; sourceTree = "<group>"; };
 		9D8446AB1897F7AC000DD533 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9D8446AC1897F7AC000DD533 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9D8446AF1897F7AC000DD533 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9D8446B11897F7AC000DD533 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9D8446B21897F7AC000DD533 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9D8446B41897F7AC000DD533 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -68,6 +77,26 @@
 		9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQDatabaseManager.m; sourceTree = "<group>"; };
 		9D8446D71897F7D9000DD533 /* IQTableUnsentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableUnsentStore.h; sourceTree = "<group>"; };
 		9D8446D81897F7D9000DD533 /* IQTableUnsentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableUnsentStore.m; sourceTree = "<group>"; };
+		9D8DF0B7189BDDBD005AEB86 /* MyDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyDatabaseManager.h; path = MyDatabaseManager/MyDatabaseManager.h; sourceTree = "<group>"; };
+		9D8DF0B8189BDDBD005AEB86 /* MyDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyDatabaseManager.m; path = MyDatabaseManager/MyDatabaseManager.m; sourceTree = "<group>"; };
+		9D8DF0BA189BDE0C005AEB86 /* MyDatabaseConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyDatabaseConstants.h; path = MyDatabaseManager/MyDatabaseConstants.h; sourceTree = "<group>"; };
+		9D8DF0BB189BDE27005AEB86 /* RecordTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordTable.h; path = MyDatabaseManager/RecordTable.h; sourceTree = SOURCE_ROOT; };
+		9D8DF0BC189BDE27005AEB86 /* RecordTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordTable.m; path = MyDatabaseManager/RecordTable.m; sourceTree = SOURCE_ROOT; };
+		9D8DF0BF189BE6E7005AEB86 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = MyDatabaseManager/Settings.h; sourceTree = SOURCE_ROOT; };
+		9D8DF0C0189BE6E7005AEB86 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = MyDatabaseManager/Settings.m; sourceTree = SOURCE_ROOT; };
+		9D8DF0C2189BEC02005AEB86 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9D8DF0C7189BECBA005AEB86 /* UpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViewController.h; sourceTree = "<group>"; };
+		9D8DF0C8189BECBA005AEB86 /* UpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
+		9D8DF0CA189BECC5005AEB86 /* InsertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsertViewController.h; sourceTree = "<group>"; };
+		9D8DF0CB189BECC5005AEB86 /* InsertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsertViewController.m; sourceTree = "<group>"; };
+		9D8DF0D0189BF1AA005AEB86 /* AllRecordsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllRecordsViewController.h; sourceTree = "<group>"; };
+		9D8DF0D1189BF1AA005AEB86 /* AllRecordsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllRecordsViewController.m; sourceTree = "<group>"; };
+		9D8DF0D4189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQButtonBarArrowLeft@2x.png"; sourceTree = "<group>"; };
+		9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQButtonBarArrowRight@2x.png"; sourceTree = "<group>"; };
+		9D8DF0D6189BF4B0005AEB86 /* IQKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardManager.h; sourceTree = "<group>"; };
+		9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQKeyboardManager.m; sourceTree = "<group>"; };
+		9D8DF0DB189BF642005AEB86 /* RecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordCell.h; sourceTree = "<group>"; };
+		9D8DF0DC189BF642005AEB86 /* RecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +139,8 @@
 		9D8446901897F7AC000DD533 = {
 			isa = PBXGroup;
 			children = (
+				9D8DF0D3189BF4B0005AEB86 /* IQKeyBoardManager */,
+				9D8DF0B6189BDD8C005AEB86 /* MyDatabaseManager */,
 				9D8446D11897F7D9000DD533 /* IQDatabaseManager */,
 				9D8446A21897F7AC000DD533 /* DatabaseManager */,
 				9D8446C11897F7AC000DD533 /* DatabaseManagerTests */,
@@ -143,11 +174,19 @@
 			children = (
 				9D8446AB1897F7AC000DD533 /* AppDelegate.h */,
 				9D8446AC1897F7AC000DD533 /* AppDelegate.m */,
-				9D8446AE1897F7AC000DD533 /* Main.storyboard */,
 				9D8446B11897F7AC000DD533 /* ViewController.h */,
 				9D8446B21897F7AC000DD533 /* ViewController.m */,
+				9D8DF0C2189BEC02005AEB86 /* Main.storyboard */,
 				9D8446B41897F7AC000DD533 /* Images.xcassets */,
 				9D8446A31897F7AC000DD533 /* Supporting Files */,
+				9D8DF0C7189BECBA005AEB86 /* UpdateViewController.h */,
+				9D8DF0C8189BECBA005AEB86 /* UpdateViewController.m */,
+				9D8DF0CA189BECC5005AEB86 /* InsertViewController.h */,
+				9D8DF0CB189BECC5005AEB86 /* InsertViewController.m */,
+				9D8DF0D0189BF1AA005AEB86 /* AllRecordsViewController.h */,
+				9D8DF0D1189BF1AA005AEB86 /* AllRecordsViewController.m */,
+				9D8DF0DB189BF642005AEB86 /* RecordCell.h */,
+				9D8DF0DC189BF642005AEB86 /* RecordCell.m */,
 			);
 			path = DatabaseManager;
 			sourceTree = "<group>";
@@ -191,6 +230,39 @@
 				9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */,
 			);
 			path = IQDatabaseManager;
+			sourceTree = "<group>";
+		};
+		9D8DF0B6189BDD8C005AEB86 /* MyDatabaseManager */ = {
+			isa = PBXGroup;
+			children = (
+				9D8DF0BE189BDE2D005AEB86 /* MyEntities */,
+				9D8DF0BA189BDE0C005AEB86 /* MyDatabaseConstants.h */,
+				9D8DF0B7189BDDBD005AEB86 /* MyDatabaseManager.h */,
+				9D8DF0B8189BDDBD005AEB86 /* MyDatabaseManager.m */,
+			);
+			name = MyDatabaseManager;
+			sourceTree = "<group>";
+		};
+		9D8DF0BE189BDE2D005AEB86 /* MyEntities */ = {
+			isa = PBXGroup;
+			children = (
+				9D8DF0BB189BDE27005AEB86 /* RecordTable.h */,
+				9D8DF0BC189BDE27005AEB86 /* RecordTable.m */,
+				9D8DF0BF189BE6E7005AEB86 /* Settings.h */,
+				9D8DF0C0189BE6E7005AEB86 /* Settings.m */,
+			);
+			name = MyEntities;
+			sourceTree = "<group>";
+		};
+		9D8DF0D3189BF4B0005AEB86 /* IQKeyBoardManager */ = {
+			isa = PBXGroup;
+			children = (
+				9D8DF0D4189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png */,
+				9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */,
+				9D8DF0D6189BF4B0005AEB86 /* IQKeyboardManager.h */,
+				9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */,
+			);
+			path = IQKeyBoardManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,9 +341,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8DF0C3189BEC02005AEB86 /* Main.storyboard in Resources */,
+				9D8DF0D8189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png in Resources */,
+				9D8DF0D9189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png in Resources */,
 				9D8446B51897F7AC000DD533 /* Images.xcassets in Resources */,
 				9D8446A71897F7AC000DD533 /* InfoPlist.strings in Resources */,
-				9D8446B01897F7AC000DD533 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,12 +364,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8DF0DA189BF4B0005AEB86 /* IQKeyboardManager.m in Sources */,
 				9D8446B31897F7AC000DD533 /* ViewController.m in Sources */,
 				9D8446AD1897F7AC000DD533 /* AppDelegate.m in Sources */,
+				9D8DF0CC189BECC5005AEB86 /* InsertViewController.m in Sources */,
+				9D8DF0C9189BECBA005AEB86 /* UpdateViewController.m in Sources */,
 				9D844224189A9EC7008152A6 /* IQTableOfflineImageStore.m in Sources */,
+				9D8DF0DD189BF642005AEB86 /* RecordCell.m in Sources */,
+				9D8DF0C1189BE6E7005AEB86 /* Settings.m in Sources */,
+				9D8DF0BD189BDE27005AEB86 /* RecordTable.m in Sources */,
 				9D8446DA1897F7D9000DD533 /* IQDatabaseManager.m in Sources */,
 				9D8446DB1897F7D9000DD533 /* IQTableUnsentStore.m in Sources */,
+				9D8DF0D2189BF1AA005AEB86 /* AllRecordsViewController.m in Sources */,
 				9D8446D91897F7D9000DD533 /* IQDatabase.xcdatamodeld in Sources */,
+				9D8DF0B9189BDDBD005AEB86 /* MyDatabaseManager.m in Sources */,
 				9D844221189A9EC7008152A6 /* IQTableOfflineStore.m in Sources */,
 				9D8446A91897F7AC000DD533 /* main.m in Sources */,
 			);
@@ -326,14 +408,6 @@
 				9D8446A61897F7AC000DD533 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		9D8446AE1897F7AC000DD533 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9D8446AF1897F7AC000DD533 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		9D8446C41897F7AC000DD533 /* InfoPlist.strings */ = {

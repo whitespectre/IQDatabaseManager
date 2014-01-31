@@ -14,9 +14,20 @@
         <attribute name="status" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="urlRequest" attributeType="Transformable" syncable="YES"/>
     </entity>
+    <entity name="RecordTable" representedClassName="RecordTable" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Settings" representedClassName="Settings" syncable="YES">
+        <attribute name="password" optional="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
     <elements>
         <element name="IQTableOfflineImageStore" positionX="0" positionY="0" width="0" height="0"/>
         <element name="IQTableOfflineStore" positionX="0" positionY="0" width="0" height="0"/>
         <element name="IQTableUnsentStore" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RecordTable" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Settings" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
