@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="12F37" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="IQTableOfflineImageStore" representedClassName="IQTableOfflineImageStore" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="url" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="IQTableOfflineStore" representedClassName="IQTableOfflineStore" syncable="YES">
+        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="url" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="IQTableUnsentStore" representedClassName="UnsentStoreTable" syncable="YES">
+        <attribute name="status" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="urlRequest" attributeType="Transformable" syncable="YES"/>
+    </entity>
+    <entity name="RecordTable" representedClassName="RecordTable" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Settings" representedClassName="Settings" syncable="YES">
+        <attribute name="password" optional="YES" attributeType="Boolean" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="IQTableOfflineImageStore" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="IQTableOfflineStore" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="IQTableUnsentStore" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RecordTable" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Settings" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
