@@ -102,8 +102,4 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 //Save context
 - (BOOL)save;
 
-/*Overrided methods*/
-- (id)init  __attribute__((unavailable("init is not available")));
-+ (id)new   __attribute__((unavailable("new is not available")));
-
 @end
