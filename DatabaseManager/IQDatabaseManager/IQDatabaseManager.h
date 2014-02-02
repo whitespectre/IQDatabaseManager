@@ -23,7 +23,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "IQDatabaseConstants.h"
 
 
 /*
@@ -47,11 +46,9 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 
 //Created by Iftekhar. 17/4/13.
 @interface IQDatabaseManager : NSObject
-{
-    //DatabaseManager Extension
-    NSOperationQueue *_queue;
-}
 
+//Abstract method. Must override this method in subclasses and return your databaseModel name.
++(NSString*)modelName;
 
 //Shared Object.
 + (IQ_INSTANCETYPE )sharedManager;
@@ -108,31 +105,5 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 /*Overrided methods*/
 - (id)init  __attribute__((unavailable("init is not available")));
 + (id)new   __attribute__((unavailable("new is not available")));
-
-@end
-
-
-@class IQTableUnsentStore;
-//File Download Extension
-@interface IQDatabaseManager (Download)
-
--(void)synchronize;
-
-//Getting data from server.
--(void)dataFromURL:(NSString*)url offlineCompletion:(OfflineCompletionBlock)offlineBlock onlineCompletion:(CompletionBlock)onlineBlock;
--(void)dataFromURL:(NSString*)url Completion:(CompletionBlock)completionBlock;
-
-//Getting image.
--(void)imageFromURL:(NSString*)url Completion:(ImageCompletionBlock)completionBlock;
-
-//Posting data to server
--(void)postData:(NSData*)data toURL:(NSString*)url completion:(CompletionBlock)completionBlock;
--(void)postRequest:(NSURLRequest*)request completion:(CompletionBlock)completionBlock;
-
-//Flushing data
--(void)flushOfflineImages;
--(void)flushOfflineData;
--(void)flushUnsentData;
--(void)flushAll;
 
 @end

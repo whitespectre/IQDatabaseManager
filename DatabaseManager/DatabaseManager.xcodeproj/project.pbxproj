@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		85880969189CDEDC00A96E25 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85880968189CDEDC00A96E25 /* SettingsViewController.m */; };
-		9D844221189A9EC7008152A6 /* IQTableOfflineStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D844220189A9EC7008152A6 /* IQTableOfflineStore.m */; };
-		9D844224189A9EC7008152A6 /* IQTableOfflineImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D844223189A9EC7008152A6 /* IQTableOfflineImageStore.m */; };
 		9D84469D1897F7AC000DD533 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D84469C1897F7AC000DD533 /* Foundation.framework */; };
 		9D84469F1897F7AC000DD533 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D84469E1897F7AC000DD533 /* CoreGraphics.framework */; };
 		9D8446A11897F7AC000DD533 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8446A01897F7AC000DD533 /* UIKit.framework */; };
@@ -23,12 +21,7 @@
 		9D8446BE1897F7AC000DD533 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8446A01897F7AC000DD533 /* UIKit.framework */; };
 		9D8446C61897F7AC000DD533 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D8446C41897F7AC000DD533 /* InfoPlist.strings */; };
 		9D8446C81897F7AC000DD533 /* DatabaseManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446C71897F7AC000DD533 /* DatabaseManagerTests.m */; };
-		9D8446D91897F7D9000DD533 /* IQDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446D21897F7D9000DD533 /* IQDatabase.xcdatamodeld */; };
 		9D8446DA1897F7D9000DD533 /* IQDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */; };
-		9D8446DB1897F7D9000DD533 /* IQTableUnsentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446D81897F7D9000DD533 /* IQTableUnsentStore.m */; };
-		9D8DF0B9189BDDBD005AEB86 /* MyDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0B8189BDDBD005AEB86 /* MyDatabaseManager.m */; };
-		9D8DF0BD189BDE27005AEB86 /* RecordTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0BC189BDE27005AEB86 /* RecordTable.m */; };
-		9D8DF0C1189BE6E7005AEB86 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C0189BE6E7005AEB86 /* Settings.m */; };
 		9D8DF0C3189BEC02005AEB86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C2189BEC02005AEB86 /* Main.storyboard */; };
 		9D8DF0C9189BECBA005AEB86 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C8189BECBA005AEB86 /* UpdateViewController.m */; };
 		9D8DF0CC189BECC5005AEB86 /* InsertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0CB189BECC5005AEB86 /* InsertViewController.m */; };
@@ -37,6 +30,15 @@
 		9D8DF0D9189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */; };
 		9D8DF0DA189BF4B0005AEB86 /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */; };
 		9D8DF0DD189BF642005AEB86 /* RecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0DC189BF642005AEB86 /* RecordCell.m */; };
+		C0414AE3189EA061004C6D09 /* RecordTable.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414ADC189EA061004C6D09 /* RecordTable.m */; };
+		C0414AE4189EA061004C6D09 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414ADE189EA061004C6D09 /* Settings.m */; };
+		C0414AE5189EA061004C6D09 /* MyDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414AE2189EA061004C6D09 /* MyDatabaseManager.m */; };
+		C0414AE8189EA08B004C6D09 /* MyDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C0414AE6189EA08B004C6D09 /* MyDatabase.xcdatamodeld */; };
+		C0414B26189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C0414B1A189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld */; };
+		C0414B27189EA944004C6D09 /* IQTableOfflineImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B1E189EA944004C6D09 /* IQTableOfflineImageStore.m */; };
+		C0414B28189EA944004C6D09 /* IQTableOfflineStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B20189EA944004C6D09 /* IQTableOfflineStore.m */; };
+		C0414B29189EA944004C6D09 /* IQTableUnsentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B22189EA944004C6D09 /* IQTableUnsentStore.m */; };
+		C0414B2A189EA944004C6D09 /* IQOfflineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B25189EA944004C6D09 /* IQOfflineManager.m */; };
 		C0E3AF00189E8DB700CFABDD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E3AEFF189E8DB700CFABDD /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
@@ -53,10 +55,6 @@
 /* Begin PBXFileReference section */
 		85880967189CDEDC00A96E25 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		85880968189CDEDC00A96E25 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		9D84421F189A9EC7008152A6 /* IQTableOfflineStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineStore.h; sourceTree = "<group>"; };
-		9D844220189A9EC7008152A6 /* IQTableOfflineStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineStore.m; sourceTree = "<group>"; };
-		9D844222189A9EC7008152A6 /* IQTableOfflineImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineImageStore.h; sourceTree = "<group>"; };
-		9D844223189A9EC7008152A6 /* IQTableOfflineImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineImageStore.m; sourceTree = "<group>"; };
 		9D8446991897F7AC000DD533 /* DatabaseManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DatabaseManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D84469C1897F7AC000DD533 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9D84469E1897F7AC000DD533 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -75,19 +73,8 @@
 		9D8446C31897F7AC000DD533 /* DatabaseManagerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DatabaseManagerTests-Info.plist"; sourceTree = "<group>"; };
 		9D8446C51897F7AC000DD533 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9D8446C71897F7AC000DD533 /* DatabaseManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DatabaseManagerTests.m; sourceTree = "<group>"; };
-		9D8446D31897F7D9000DD533 /* IQDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IQDatabase.xcdatamodel; sourceTree = "<group>"; };
-		9D8446D41897F7D9000DD533 /* IQDatabaseConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQDatabaseConstants.h; sourceTree = "<group>"; };
 		9D8446D51897F7D9000DD533 /* IQDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQDatabaseManager.h; sourceTree = "<group>"; };
 		9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQDatabaseManager.m; sourceTree = "<group>"; };
-		9D8446D71897F7D9000DD533 /* IQTableUnsentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableUnsentStore.h; sourceTree = "<group>"; };
-		9D8446D81897F7D9000DD533 /* IQTableUnsentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableUnsentStore.m; sourceTree = "<group>"; };
-		9D8DF0B7189BDDBD005AEB86 /* MyDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyDatabaseManager.h; path = MyDatabaseManager/MyDatabaseManager.h; sourceTree = "<group>"; };
-		9D8DF0B8189BDDBD005AEB86 /* MyDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyDatabaseManager.m; path = MyDatabaseManager/MyDatabaseManager.m; sourceTree = "<group>"; };
-		9D8DF0BA189BDE0C005AEB86 /* MyDatabaseConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyDatabaseConstants.h; path = MyDatabaseManager/MyDatabaseConstants.h; sourceTree = "<group>"; };
-		9D8DF0BB189BDE27005AEB86 /* RecordTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordTable.h; path = MyDatabaseManager/RecordTable.h; sourceTree = SOURCE_ROOT; };
-		9D8DF0BC189BDE27005AEB86 /* RecordTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordTable.m; path = MyDatabaseManager/RecordTable.m; sourceTree = SOURCE_ROOT; };
-		9D8DF0BF189BE6E7005AEB86 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = MyDatabaseManager/Settings.h; sourceTree = SOURCE_ROOT; };
-		9D8DF0C0189BE6E7005AEB86 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = MyDatabaseManager/Settings.m; sourceTree = SOURCE_ROOT; };
 		9D8DF0C2189BEC02005AEB86 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9D8DF0C7189BECBA005AEB86 /* UpdateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateViewController.h; sourceTree = "<group>"; };
 		9D8DF0C8189BECBA005AEB86 /* UpdateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
@@ -101,6 +88,24 @@
 		9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQKeyboardManager.m; sourceTree = "<group>"; };
 		9D8DF0DB189BF642005AEB86 /* RecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordCell.h; sourceTree = "<group>"; };
 		9D8DF0DC189BF642005AEB86 /* RecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordCell.m; sourceTree = "<group>"; };
+		C0414ADB189EA061004C6D09 /* RecordTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordTable.h; sourceTree = "<group>"; };
+		C0414ADC189EA061004C6D09 /* RecordTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordTable.m; sourceTree = "<group>"; };
+		C0414ADD189EA061004C6D09 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		C0414ADE189EA061004C6D09 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		C0414AE0189EA061004C6D09 /* MyDatabaseConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDatabaseConstants.h; sourceTree = "<group>"; };
+		C0414AE1189EA061004C6D09 /* MyDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDatabaseManager.h; sourceTree = "<group>"; };
+		C0414AE2189EA061004C6D09 /* MyDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDatabaseManager.m; sourceTree = "<group>"; };
+		C0414AE7189EA08B004C6D09 /* MyDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyDatabase.xcdatamodel; sourceTree = "<group>"; };
+		C0414B1B189EA944004C6D09 /* IQDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IQDatabase.xcdatamodel; sourceTree = "<group>"; };
+		C0414B1D189EA944004C6D09 /* IQTableOfflineImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineImageStore.h; sourceTree = "<group>"; };
+		C0414B1E189EA944004C6D09 /* IQTableOfflineImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineImageStore.m; sourceTree = "<group>"; };
+		C0414B1F189EA944004C6D09 /* IQTableOfflineStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineStore.h; sourceTree = "<group>"; };
+		C0414B20189EA944004C6D09 /* IQTableOfflineStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineStore.m; sourceTree = "<group>"; };
+		C0414B21189EA944004C6D09 /* IQTableUnsentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableUnsentStore.h; sourceTree = "<group>"; };
+		C0414B22189EA944004C6D09 /* IQTableUnsentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableUnsentStore.m; sourceTree = "<group>"; };
+		C0414B23189EA944004C6D09 /* IQOfflineConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQOfflineConstants.h; sourceTree = "<group>"; };
+		C0414B24189EA944004C6D09 /* IQOfflineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQOfflineManager.h; sourceTree = "<group>"; };
+		C0414B25189EA944004C6D09 /* IQOfflineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQOfflineManager.m; sourceTree = "<group>"; };
 		C0E3AEFF189E8DB700CFABDD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -129,24 +134,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9D84421E189A9E6B008152A6 /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-				9D844222189A9EC7008152A6 /* IQTableOfflineImageStore.h */,
-				9D844223189A9EC7008152A6 /* IQTableOfflineImageStore.m */,
-				9D84421F189A9EC7008152A6 /* IQTableOfflineStore.h */,
-				9D844220189A9EC7008152A6 /* IQTableOfflineStore.m */,
-				9D8446D71897F7D9000DD533 /* IQTableUnsentStore.h */,
-				9D8446D81897F7D9000DD533 /* IQTableUnsentStore.m */,
-			);
-			name = Entities;
-			sourceTree = "<group>";
-		};
 		9D8446901897F7AC000DD533 = {
 			isa = PBXGroup;
 			children = (
 				9D8DF0D3189BF4B0005AEB86 /* IQKeyBoardManager */,
-				9D8DF0B6189BDD8C005AEB86 /* MyDatabaseManager */,
 				9D8446D11897F7D9000DD533 /* IQDatabaseManager */,
 				9D8446A21897F7AC000DD533 /* DatabaseManager */,
 				9D8446C11897F7AC000DD533 /* DatabaseManagerTests */,
@@ -232,35 +223,12 @@
 		9D8446D11897F7D9000DD533 /* IQDatabaseManager */ = {
 			isa = PBXGroup;
 			children = (
-				9D84421E189A9E6B008152A6 /* Entities */,
-				9D8446D21897F7D9000DD533 /* IQDatabase.xcdatamodeld */,
-				9D8446D41897F7D9000DD533 /* IQDatabaseConstants.h */,
+				C0414AD9189EA061004C6D09 /* MyDatabaseManager */,
+				C0414B18189EA944004C6D09 /* IQOfflineManager */,
 				9D8446D51897F7D9000DD533 /* IQDatabaseManager.h */,
 				9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */,
 			);
 			path = IQDatabaseManager;
-			sourceTree = "<group>";
-		};
-		9D8DF0B6189BDD8C005AEB86 /* MyDatabaseManager */ = {
-			isa = PBXGroup;
-			children = (
-				9D8DF0BE189BDE2D005AEB86 /* MyEntities */,
-				9D8DF0BA189BDE0C005AEB86 /* MyDatabaseConstants.h */,
-				9D8DF0B7189BDDBD005AEB86 /* MyDatabaseManager.h */,
-				9D8DF0B8189BDDBD005AEB86 /* MyDatabaseManager.m */,
-			);
-			name = MyDatabaseManager;
-			sourceTree = "<group>";
-		};
-		9D8DF0BE189BDE2D005AEB86 /* MyEntities */ = {
-			isa = PBXGroup;
-			children = (
-				9D8DF0BB189BDE27005AEB86 /* RecordTable.h */,
-				9D8DF0BC189BDE27005AEB86 /* RecordTable.m */,
-				9D8DF0BF189BE6E7005AEB86 /* Settings.h */,
-				9D8DF0C0189BE6E7005AEB86 /* Settings.m */,
-			);
-			name = MyEntities;
 			sourceTree = "<group>";
 		};
 		9D8DF0D3189BF4B0005AEB86 /* IQKeyBoardManager */ = {
@@ -272,6 +240,70 @@
 				9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */,
 			);
 			path = IQKeyBoardManager;
+			sourceTree = "<group>";
+		};
+		C0414AD9189EA061004C6D09 /* MyDatabaseManager */ = {
+			isa = PBXGroup;
+			children = (
+				C0414ADA189EA061004C6D09 /* Entities */,
+				C0414ADF189EA061004C6D09 /* My Database Model */,
+				C0414AE0189EA061004C6D09 /* MyDatabaseConstants.h */,
+				C0414AE1189EA061004C6D09 /* MyDatabaseManager.h */,
+				C0414AE2189EA061004C6D09 /* MyDatabaseManager.m */,
+			);
+			path = MyDatabaseManager;
+			sourceTree = "<group>";
+		};
+		C0414ADA189EA061004C6D09 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				C0414ADB189EA061004C6D09 /* RecordTable.h */,
+				C0414ADC189EA061004C6D09 /* RecordTable.m */,
+				C0414ADD189EA061004C6D09 /* Settings.h */,
+				C0414ADE189EA061004C6D09 /* Settings.m */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		C0414ADF189EA061004C6D09 /* My Database Model */ = {
+			isa = PBXGroup;
+			children = (
+				C0414AE6189EA08B004C6D09 /* MyDatabase.xcdatamodeld */,
+			);
+			path = "My Database Model";
+			sourceTree = "<group>";
+		};
+		C0414B18189EA944004C6D09 /* IQOfflineManager */ = {
+			isa = PBXGroup;
+			children = (
+				C0414B19189EA944004C6D09 /* Database Model */,
+				C0414B1C189EA944004C6D09 /* Entities */,
+				C0414B23189EA944004C6D09 /* IQOfflineConstants.h */,
+				C0414B24189EA944004C6D09 /* IQOfflineManager.h */,
+				C0414B25189EA944004C6D09 /* IQOfflineManager.m */,
+			);
+			path = IQOfflineManager;
+			sourceTree = "<group>";
+		};
+		C0414B19189EA944004C6D09 /* Database Model */ = {
+			isa = PBXGroup;
+			children = (
+				C0414B1A189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld */,
+			);
+			path = "Database Model";
+			sourceTree = "<group>";
+		};
+		C0414B1C189EA944004C6D09 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				C0414B1D189EA944004C6D09 /* IQTableOfflineImageStore.h */,
+				C0414B1E189EA944004C6D09 /* IQTableOfflineImageStore.m */,
+				C0414B1F189EA944004C6D09 /* IQTableOfflineStore.h */,
+				C0414B20189EA944004C6D09 /* IQTableOfflineStore.m */,
+				C0414B21189EA944004C6D09 /* IQTableUnsentStore.h */,
+				C0414B22189EA944004C6D09 /* IQTableUnsentStore.m */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,18 +410,20 @@
 				9D8446AD1897F7AC000DD533 /* AppDelegate.m in Sources */,
 				9D8DF0CC189BECC5005AEB86 /* InsertViewController.m in Sources */,
 				9D8DF0C9189BECBA005AEB86 /* UpdateViewController.m in Sources */,
-				9D844224189A9EC7008152A6 /* IQTableOfflineImageStore.m in Sources */,
 				9D8DF0DD189BF642005AEB86 /* RecordCell.m in Sources */,
-				9D8DF0C1189BE6E7005AEB86 /* Settings.m in Sources */,
-				9D8DF0BD189BDE27005AEB86 /* RecordTable.m in Sources */,
 				85880969189CDEDC00A96E25 /* SettingsViewController.m in Sources */,
 				9D8446DA1897F7D9000DD533 /* IQDatabaseManager.m in Sources */,
-				9D8446DB1897F7D9000DD533 /* IQTableUnsentStore.m in Sources */,
 				9D8DF0D2189BF1AA005AEB86 /* AllRecordsViewController.m in Sources */,
-				9D8446D91897F7D9000DD533 /* IQDatabase.xcdatamodeld in Sources */,
-				9D8DF0B9189BDDBD005AEB86 /* MyDatabaseManager.m in Sources */,
-				9D844221189A9EC7008152A6 /* IQTableOfflineStore.m in Sources */,
 				9D8446A91897F7AC000DD533 /* main.m in Sources */,
+				C0414AE3189EA061004C6D09 /* RecordTable.m in Sources */,
+				C0414AE4189EA061004C6D09 /* Settings.m in Sources */,
+				C0414AE5189EA061004C6D09 /* MyDatabaseManager.m in Sources */,
+				C0414AE8189EA08B004C6D09 /* MyDatabase.xcdatamodeld in Sources */,
+				C0414B26189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld in Sources */,
+				C0414B27189EA944004C6D09 /* IQTableOfflineImageStore.m in Sources */,
+				C0414B28189EA944004C6D09 /* IQTableOfflineStore.m in Sources */,
+				C0414B29189EA944004C6D09 /* IQTableUnsentStore.m in Sources */,
+				C0414B2A189EA944004C6D09 /* IQOfflineManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,13 +640,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		9D8446D21897F7D9000DD533 /* IQDatabase.xcdatamodeld */ = {
+		C0414AE6189EA08B004C6D09 /* MyDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				9D8446D31897F7D9000DD533 /* IQDatabase.xcdatamodel */,
+				C0414AE7189EA08B004C6D09 /* MyDatabase.xcdatamodel */,
 			);
-			currentVersion = 9D8446D31897F7D9000DD533 /* IQDatabase.xcdatamodel */;
-			path = IQDatabase.xcdatamodeld;
+			currentVersion = C0414AE7189EA08B004C6D09 /* MyDatabase.xcdatamodel */;
+			path = MyDatabase.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		C0414B1A189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C0414B1B189EA944004C6D09 /* IQDatabase.xcdatamodel */,
+			);
+			currentVersion = C0414B1B189EA944004C6D09 /* IQDatabase.xcdatamodel */;
+			path = IQOfflineDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

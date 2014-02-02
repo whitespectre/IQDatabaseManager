@@ -21,22 +21,31 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef Synchronize_Manager_IQDatabaseConstants_h
-#define Synchronize_Manager_IQDatabaseConstants_h
+#import "IQTableUnsentStore.h"
+#import "IQOfflineManager.h"
+
+@interface IQOfflineManager ()
+
+//Private method of IQDatabaseManager (Download) extension.
+-(void)postObject:(IQTableUnsentStore*)object withCompletion:(CompletionBlock)completionBlock;
+
+@end
 
 
-typedef void (^OfflineCompletionBlock)(id result);
-typedef void (^CompletionBlock)(id result, NSError *error);
-typedef void (^ImageCompletionBlock)(UIImage *image, NSError *error);
 
-typedef void (^ResponseBlock)(NSURLResponse* response);
-typedef void (^ProgressBlock)(CGFloat progress);
+@implementation IQTableUnsentStore
 
-enum
+@dynamic urlRequest;
+@dynamic status;
+
+- (void)didSave
 {
-	IQObjectUpdateStatusNotUpdated	=	0,
-	IQObjectUpdateStatusUpdating    =	1,
-	IQObjectUpdateStatusUpdated		=	2,
-};
+    [super didSave];
+    
+    if ([[self status] integerValue] == IQObjectUpdateStatusNotUpdated)
+    {
+        [[IQOfflineManager sharedManager] postObject:self withCompletion:nil];
+    }
+}
 
-#endif
+@end

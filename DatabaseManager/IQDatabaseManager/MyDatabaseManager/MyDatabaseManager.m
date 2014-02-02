@@ -10,6 +10,11 @@
 
 @implementation MyDatabaseManager
 
++(NSString*)modelName
+{
+    return @"MyDatabaseManager";
+}
+
 #pragma mark - RecordTable
 - (NSArray *)allRecordsSortByAttribute:(NSString*)attribute
 {
