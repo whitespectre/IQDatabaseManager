@@ -9,6 +9,10 @@
 #import "RecordCell.h"
 
 @implementation RecordCell
+@synthesize labelName;
+@synthesize labelComment;
+@synthesize labelEmail;
+@synthesize labelPhone;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -19,6 +19,9 @@
     NSString *sortingAttribute;
 }
 
+-(void)deleteAllRecords:(id)sender;
+-(void)ShowActionSheet:(id)sender;
+
 @end
 
 @implementation AllRecordsViewController
@@ -31,8 +34,8 @@
     [self.tableView setEditing:YES animated:YES];
     self.tableView.allowsSelectionDuringEditing = YES;
     
-    UIBarButtonItem *actionSheetButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(ShowSheet:)];
-    UIBarButtonItem *deleteAllRecords = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(delRecord:)];
+    UIBarButtonItem *actionSheetButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(ShowActionSheet:)];
+    UIBarButtonItem *deleteAllRecords = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAllRecords:)];
     
     NSArray *buttonArray = [[NSArray alloc] initWithObjects:deleteAllRecords,actionSheetButton, nil];
     
@@ -140,7 +143,7 @@
         }
 }
 
--(void)delRecord:(id)sender
+-(void)deleteAllRecords:(id)sender
 {
     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Confirmation"
                                                       message:@"Do you want to delete all records"
@@ -166,15 +169,12 @@
     }
 }
 
--(void)ShowSheet:(id)sender
+-(void)ShowActionSheet:(id)sender
 {
-    NSString *actionSheetTitle = @"Sort List"; //Action Sheet Title
-    
-    NSString *cancelTitle = @"Cancel";
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:actionSheetTitle
+                                  initWithTitle:@"Sort List"
                                   delegate:self
-                                  cancelButtonTitle:cancelTitle
+                                  cancelButtonTitle:@"Cancel"
                                   destructiveButtonTitle:nil
                                   otherButtonTitles:kName, kEmail, kPhoneNumber,kComment, nil];
     [actionSheet showInView:self.view];
@@ -204,10 +204,7 @@
 
 -(void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
-    NSString *predicateString = [NSString stringWithFormat:@"self.%@ contains[c] \"%@\"",scope,searchText];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-    filteredRecords = [[MyDatabaseManager sharedManager] allRecordsSortByAttribute:nil predicate:predicate];
+    filteredRecords = [[MyDatabaseManager sharedManager] allRecordsSortByAttribute:nil where:scope contains:searchText];
 }
 
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString

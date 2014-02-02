@@ -107,6 +107,7 @@
 //  Private helper methods
 - (void)adjustFrame;
 -(void)addToolbarIfRequired;
+-(void)removeToolbarIfRequired;
 
 -(void)previousAction:(UISegmentedControl*)segmentedControl;
 -(void)nextAction:(UISegmentedControl*)segmentedControl;
@@ -122,6 +123,7 @@
 - (void)textFieldViewDidEndEditing:(NSNotification*)notification;
 - (void)textFieldViewDidChange:(NSNotification*)notification;
 
+//Gesture recognizer on UIWindow
 - (void)tapRecognized:(UITapGestureRecognizer*)gesture;
 
 //To remove compiler warning

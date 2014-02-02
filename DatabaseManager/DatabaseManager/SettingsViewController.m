@@ -11,6 +11,8 @@
 
 @interface SettingsViewController ()
 
+- (void)switchChanged:(UISwitch*)sender;
+
 @end
 
 @implementation SettingsViewController
@@ -30,31 +32,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    passwordSwitch = [[UISwitch alloc] init];
-    
-    Settings *set = [[MyDatabaseManager sharedManager] settings];
-    NSNumber *previousState = set.password;
-    if ([previousState boolValue]== 0) {
-        [passwordSwitch setOn:NO];
-    } else {
-        [passwordSwitch setOn:YES];
-    }
-    [passwordSwitch addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    Settings *setting = [[MyDatabaseManager sharedManager] settings];
+
+    [passwordSwitch setOn:[setting.password boolValue]];
+    [passwordSwitch addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
-- (void)setState:(id)sender
+- (void)switchChanged:(UISwitch*)sender
 {
-    UISwitch *onOff = (UISwitch*)sender;
-    
-    BOOL state = [onOff isOn];
-    
-    NSNumber *stateNum = [NSNumber numberWithBool:state];
+    NSNumber *stateNum = [NSNumber numberWithBool:[sender isOn]];
     
     NSDictionary *dictForPassword = [[NSDictionary alloc] initWithObjectsAndKeys:stateNum,kPassword, nil];
     

@@ -20,13 +20,13 @@
     return [self allObjectsFromTable:NSStringFromClass([RecordTable class]) sortDescriptor:sortDescriptor];
 }
 
-- (NSArray *)allRecordsSortByAttribute:(NSString*)attribute predicate:(NSPredicate*)predicate
+- (NSArray *)allRecordsSortByAttribute:(NSString*)attribute where:(NSString*)key contains:(id)value
 {
     NSSortDescriptor *sortDescriptor = nil;
     
     if ([attribute length]) sortDescriptor = [[NSSortDescriptor alloc] initWithKey:attribute ascending:YES];
 
-    return [self allObjectsFromTable:NSStringFromClass([RecordTable class]) wherePredicate:predicate sortDescriptor:sortDescriptor];
+    return [self allObjectsFromTable:NSStringFromClass([RecordTable class]) where:key contains:value sortDescriptor:sortDescriptor];
 }
 
 -(RecordTable*) insertRecordInRecordTable:(NSDictionary*)recordAttribute

@@ -37,6 +37,7 @@
 		9D8DF0D9189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */; };
 		9D8DF0DA189BF4B0005AEB86 /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */; };
 		9D8DF0DD189BF642005AEB86 /* RecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0DC189BF642005AEB86 /* RecordCell.m */; };
+		C0E3AF00189E8DB700CFABDD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E3AEFF189E8DB700CFABDD /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +70,7 @@
 		9D8446B11897F7AC000DD533 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9D8446B21897F7AC000DD533 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9D8446B41897F7AC000DD533 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		9D8446BA1897F7AC000DD533 /* DatabaseManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DatabaseManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D8446BA1897F7AC000DD533 /* DatabaseManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = DatabaseManagerTests.xctest; path = DatabaseManagerTests; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D8446BB1897F7AC000DD533 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9D8446C31897F7AC000DD533 /* DatabaseManagerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DatabaseManagerTests-Info.plist"; sourceTree = "<group>"; };
 		9D8446C51897F7AC000DD533 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -100,6 +101,7 @@
 		9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQKeyboardManager.m; sourceTree = "<group>"; };
 		9D8DF0DB189BF642005AEB86 /* RecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordCell.h; sourceTree = "<group>"; };
 		9D8DF0DC189BF642005AEB86 /* RecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordCell.m; sourceTree = "<group>"; };
+		C0E3AEFF189E8DB700CFABDD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E3AF00189E8DB700CFABDD /* CoreData.framework in Frameworks */,
 				9D84469F1897F7AC000DD533 /* CoreGraphics.framework in Frameworks */,
 				9D8446A11897F7AC000DD533 /* UIKit.framework in Frameworks */,
 				9D84469D1897F7AC000DD533 /* Foundation.framework in Frameworks */,
@@ -167,6 +170,7 @@
 				9D84469C1897F7AC000DD533 /* Foundation.framework */,
 				9D84469E1897F7AC000DD533 /* CoreGraphics.framework */,
 				9D8446A01897F7AC000DD533 /* UIKit.framework */,
+				C0E3AEFF189E8DB700CFABDD /* CoreData.framework */,
 				9D8446BB1897F7AC000DD533 /* XCTest.framework */,
 			);
 			name = Frameworks;
@@ -507,7 +511,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DatabaseManager/DatabaseManager-Prefix.pch";
 				INFOPLIST_FILE = "DatabaseManager/DatabaseManager-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -521,7 +525,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DatabaseManager/DatabaseManager-Prefix.pch";
 				INFOPLIST_FILE = "DatabaseManager/DatabaseManager-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

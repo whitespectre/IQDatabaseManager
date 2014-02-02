@@ -21,6 +21,7 @@
 @end
 
 @implementation UpdateViewController
+@synthesize record;
 
 - (void)viewDidLoad
 {

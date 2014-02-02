@@ -12,7 +12,7 @@
 @interface MyDatabaseManager : IQDatabaseManager
 
 - (NSArray *)allRecordsSortByAttribute:(NSString*)attribute;
-- (NSArray *)allRecordsSortByAttribute:(NSString*)attribute predicate:(NSPredicate*)predicate;
+- (NSArray *)allRecordsSortByAttribute:(NSString*)attribute where:(NSString*)key contains:(id)value;
 
 - (RecordTable*) insertRecordInRecordTable:(NSDictionary*)recordAttributes;
 - (RecordTable*) insertUpdateRecordInRecordTable:(NSDictionary*)recordAttributes;

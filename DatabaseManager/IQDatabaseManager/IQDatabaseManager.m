@@ -199,6 +199,24 @@
 }
 
 
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value sortDescriptor:(NSSortDescriptor*)descriptor
+{
+    NSPredicate *predicate;
+    if (key && value) 
+    {
+        NSString *predicateString = [NSString stringWithFormat:@"self.%@ contains[c] \"%@\"",key,value];
+        predicate = [NSPredicate predicateWithFormat:predicateString];
+    }
+    
+    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor];
+}
+
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value
+{
+    return [self allObjectsFromTable:tableName where:key contains:value sortDescriptor:nil];
+}
+
+
 /*First/Last object*/
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName
 {
@@ -643,14 +661,6 @@
     [self synchronizeUnsentStore];
 }
 
-//Synchronizing at launching.
--(void)synchronizeAtLaunch
-{
-    [self resetStatus];
-    
-    [self synchronize];
-}
-
 #pragma mark - Flush management
 -(void)flushOfflineImages
 {
@@ -696,5 +706,14 @@
 
     [self save];
 }
+
+//Synchronizing at launching.
+-(void)synchronizeAtLaunch
+{
+    [self resetStatus];
+    
+    [self synchronize];
+}
+
 
 @end

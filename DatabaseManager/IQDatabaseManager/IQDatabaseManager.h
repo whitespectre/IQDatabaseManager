@@ -25,6 +25,7 @@
 #import <CoreData/CoreData.h>
 #import "IQDatabaseConstants.h"
 
+
 /*
 Faulting and Uniquing
 
@@ -33,6 +34,17 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
  https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CoreData/Articles/cdFaultingUniquing.html
 */
 
+
+#ifndef IQ_INSTANCETYPE
+    #if __has_feature(objc_instancetype)
+        #define IQ_INSTANCETYPE instancetype
+    #else
+        #define IQ_INSTANCETYPE id
+    #endif
+#endif
+
+
+
 //Created by Iftekhar. 17/4/13.
 @interface IQDatabaseManager : NSObject
 {
@@ -40,8 +52,9 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
     NSOperationQueue *_queue;
 }
 
+
 //Shared Object.
-+ (instancetype )sharedManager;
++ (IQ_INSTANCETYPE )sharedManager;
 
 -(NSArray*)tableNames;
 -(NSDictionary*)attributesForTable:(NSString*)tableName;
@@ -57,7 +70,8 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 - (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
 - (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor;
 
-//- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSDictionary*)keysEqualValues;
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value;
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value sortDescriptor:(NSSortDescriptor*)descriptor;
 
 
 #pragma mark - First/Last object
