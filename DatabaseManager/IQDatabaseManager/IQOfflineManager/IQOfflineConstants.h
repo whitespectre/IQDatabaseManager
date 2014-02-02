@@ -1,4 +1,6 @@
 /*
+ IQOfflineManager
+ 
  The MIT License (MIT)
  
  Copyright (c) 2014 Mohd Iftekhar Qurashi
@@ -21,8 +23,9 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef IQDownloadConstants_h
-#define IQDownloadConstants_h
+
+#ifndef IQOfflineConstants_h
+#define IQOfflineConstants_h
 
 typedef void (^OfflineCompletionBlock)(id result);
 typedef void (^CompletionBlock)(id result, NSError *error);

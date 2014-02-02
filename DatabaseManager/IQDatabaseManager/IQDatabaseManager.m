@@ -1,4 +1,6 @@
 /*
+ IQDatabaseManager
+
  The MIT License (MIT)
  
  Copyright (c) 2014 Mohd Iftekhar Qurashi
