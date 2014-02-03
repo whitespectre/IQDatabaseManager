@@ -45,19 +45,15 @@
 //Created by Iftekhar. 18/4/13.
 @interface IQDatabaseManager()
 
-//Core Data Use Only.
-@property (readonly, strong, atomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, atomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, atomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
 @end
 
 //Actual Implementation.
 @implementation IQDatabaseManager
-
-@synthesize managedObjectContext = __managedObjectContext;
-@synthesize managedObjectModel = __managedObjectModel;
-@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+{
+    NSManagedObjectContext *_managedObjectContext;
+    NSManagedObjectModel *_managedObjectModel;
+    NSPersistentStoreCoordinator *_persistentStoreCoordinator;
+}
 
 #pragma mark - Initialize and Save.
 
@@ -74,37 +70,84 @@
     self = [super init];
     if (self)
     {
+        //Initializing ManagedObjectModel
+        {
+            NSURL *modelURL = [[NSBundle mainBundle] URLForResource:[[self class] modelName] withExtension:@"momd"];
+            
+            if (modelURL == nil)
+            {
+                modelURL = [[NSBundle mainBundle] URLForResource:[[self class] modelName] withExtension:@"mom"];
+            }
+            
+            _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+        }
+
+        //Initializing persistentStoreCoordinator with ManagedObjectModel.
+        {
+            NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+            
+            NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",[[self class] modelName]]];
+            
+            NSError *error = nil;
+            _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_managedObjectModel];
+            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+            {
+                NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
+                [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+                abort();
+            }
+        }
+        
+        //Initializing ManagedObjectContext with persistentStoreCoordinator
+        {
+            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+            [_managedObjectContext setPersistentStoreCoordinator:_persistentStoreCoordinator];
+        }
     }
     return self;
 }
 
 +(IQ_INSTANCETYPE)sharedManager
 {
-    static IQDatabaseManager *sharedDataBase;
-
-    if (sharedDataBase == nil)
+    static NSMutableDictionary *sharedDictionary;
+    
+    if (sharedDictionary == nil)    sharedDictionary = [[NSMutableDictionary alloc] init];
+    
+    id sharedObject = [sharedDictionary objectForKey:self];
+    
+    if (sharedObject == nil)
     {
-        sharedDataBase = [[self alloc] init];
+        if (![NSStringFromClass(self) isEqualToString:NSStringFromClass([IQDatabaseManager class])])
+        {
+            sharedObject = [[self alloc] init];
+            
+            [sharedDictionary setObject:sharedObject forKey:self];
+        }
+        else
+        {
+            [NSException raise:NSInternalInconsistencyException format:@"You must subclass %@",NSStringFromClass([IQDatabaseManager class])];
+            return nil;
+        }
     }
     
-    return sharedDataBase;
+    return sharedObject;
 }
 
 //Save context.
 -(BOOL)save;
 {
-    return [self.managedObjectContext save:nil];
+    return [_managedObjectContext save:nil];
 }
 
 -(NSArray*)tableNames
 {
-    NSDictionary *entities = [self.managedObjectModel entitiesByName];
+    NSDictionary *entities = [_managedObjectModel entitiesByName];
     return [entities allKeys];
 }
 
 -(NSDictionary*)attributesForTable:(NSString*)tableName
 {
-    NSEntityDescription *description = [[self.managedObjectModel entitiesByName] objectForKey:tableName];
+    NSEntityDescription *description = [[_managedObjectModel entitiesByName] objectForKey:tableName];
 
     NSDictionary *properties = [description propertiesByName];
     NSArray *allKeys = [properties allKeys];
@@ -146,7 +189,7 @@
     if (predicate)  [fetchRequest setPredicate:predicate];
     if (descriptor) [fetchRequest setSortDescriptors:[NSArray arrayWithObject:descriptor]];
 
-    return [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    return [_managedObjectContext executeFetchRequest:fetchRequest error:nil];
 }
 
 - (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor
@@ -255,7 +298,7 @@
 - (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary
 {
     //creating NSManagedObject for inserting records
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:tableName inManagedObjectContext:self.managedObjectContext];
+    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:tableName inManagedObjectContext:_managedObjectContext];
     
     return [self updateRecord:object withAttribute:dictionary];
 }
@@ -298,7 +341,7 @@
     
     for (NSManagedObject *object in records)
     {
-        [self.managedObjectContext deleteObject:object];
+        [_managedObjectContext deleteObject:object];
     }
     
     return [self save];
@@ -307,82 +350,8 @@
 //Delete object
 -(BOOL)deleteRecord:(NSManagedObject*)object
 {
-    [self.managedObjectContext deleteObject:object];
+    [_managedObjectContext deleteObject:object];
     return [self save];
-}
-
-
-#pragma mark - Core Data Stack
-
-/**
- Returns the managed object context for the application.
- If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
- */
-- (NSManagedObjectContext *)managedObjectContext
-{
-    if (__managedObjectContext != nil)
-    {
-        return __managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil)
-    {
-        __managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    }
-    
-    return __managedObjectContext;
-}
-
-/**
- Returns the managed object model for the application.
- If the model doesn't already exist, it is created from the application's model.
- */
-- (NSManagedObjectModel *)managedObjectModel
-{
-    if (__managedObjectModel != nil)
-    {
-        return __managedObjectModel;
-    }
-    
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:[[self class] modelName] withExtension:@"momd"];
-    
-    if (modelURL == nil)
-    {
-        modelURL = [[NSBundle mainBundle] URLForResource:[[self class] modelName] withExtension:@"mom"];
-    }
-    
-    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    
-    return __managedObjectModel;
-}
-
-/**
- Returns the persistent store coordinator for the application.
- If the coordinator doesn't already exist, it is created and the application's store added to it.
- */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-    if (__persistentStoreCoordinator != nil)
-    {
-        return __persistentStoreCoordinator;
-    }
-    
-    NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-
-    NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",[[self class] modelName]]];
-    
-    NSError *error = nil;
-    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
-    {
-        NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
-        [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-        abort();
-    }    
-    
-    return __persistentStoreCoordinator;
 }
 
 @end
