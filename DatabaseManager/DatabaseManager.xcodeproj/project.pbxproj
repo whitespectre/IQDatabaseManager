@@ -64,7 +64,7 @@
 		9D8446B11897F7AC000DD533 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9D8446B21897F7AC000DD533 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9D8446B41897F7AC000DD533 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		9D8446BA1897F7AC000DD533 /* DatabaseManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = DatabaseManagerTests.xctest; path = DatabaseManagerTests; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D8446BA1897F7AC000DD533 /* DatabaseManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DatabaseManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D8446BB1897F7AC000DD533 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9D8446C31897F7AC000DD533 /* DatabaseManagerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DatabaseManagerTests-Info.plist"; sourceTree = "<group>"; };
 		9D8446C51897F7AC000DD533 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };

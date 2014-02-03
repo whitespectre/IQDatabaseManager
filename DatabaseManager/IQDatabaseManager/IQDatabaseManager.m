@@ -113,7 +113,7 @@
     
     if (sharedDictionary == nil)    sharedDictionary = [[NSMutableDictionary alloc] init];
     
-    id sharedObject = [sharedDictionary objectForKey:self];
+    id sharedObject = [sharedDictionary objectForKey:NSStringFromClass([self class])];
     
     if (sharedObject == nil)
     {
@@ -121,7 +121,7 @@
         {
             sharedObject = [[self alloc] init];
             
-            [sharedDictionary setObject:sharedObject forKey:self];
+            [sharedDictionary setObject:sharedObject forKey:NSStringFromClass([self class])];
         }
         else
         {
