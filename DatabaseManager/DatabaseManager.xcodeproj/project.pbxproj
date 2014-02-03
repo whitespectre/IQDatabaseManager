@@ -22,7 +22,6 @@
 		9D8446C61897F7AC000DD533 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D8446C41897F7AC000DD533 /* InfoPlist.strings */; };
 		9D8446C81897F7AC000DD533 /* DatabaseManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446C71897F7AC000DD533 /* DatabaseManagerTests.m */; };
 		9D8446DA1897F7D9000DD533 /* IQDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */; };
-		9D8DF0C3189BEC02005AEB86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C2189BEC02005AEB86 /* Main.storyboard */; };
 		9D8DF0C9189BECBA005AEB86 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C8189BECBA005AEB86 /* UpdateViewController.m */; };
 		9D8DF0CC189BECC5005AEB86 /* InsertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0CB189BECC5005AEB86 /* InsertViewController.m */; };
 		9D8DF0D2189BF1AA005AEB86 /* AllRecordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D1189BF1AA005AEB86 /* AllRecordsViewController.m */; };
@@ -34,12 +33,9 @@
 		C0414AE4189EA061004C6D09 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414ADE189EA061004C6D09 /* Settings.m */; };
 		C0414AE5189EA061004C6D09 /* MyDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414AE2189EA061004C6D09 /* MyDatabaseManager.m */; };
 		C0414AE8189EA08B004C6D09 /* MyDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C0414AE6189EA08B004C6D09 /* MyDatabase.xcdatamodeld */; };
-		C0414B26189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C0414B1A189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld */; };
-		C0414B27189EA944004C6D09 /* IQTableOfflineImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B1E189EA944004C6D09 /* IQTableOfflineImageStore.m */; };
-		C0414B28189EA944004C6D09 /* IQTableOfflineStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B20189EA944004C6D09 /* IQTableOfflineStore.m */; };
-		C0414B29189EA944004C6D09 /* IQTableUnsentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B22189EA944004C6D09 /* IQTableUnsentStore.m */; };
-		C0414B2A189EA944004C6D09 /* IQOfflineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0414B25189EA944004C6D09 /* IQOfflineManager.m */; };
+		C099D806189F29C200D3A288 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C099D805189F29C200D3A288 /* SystemConfiguration.framework */; };
 		C0E3AF00189E8DB700CFABDD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E3AEFF189E8DB700CFABDD /* CoreData.framework */; };
+		C0F165F6189F2E9E00C59EAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C2189BEC02005AEB86 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,16 +92,7 @@
 		C0414AE1189EA061004C6D09 /* MyDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDatabaseManager.h; sourceTree = "<group>"; };
 		C0414AE2189EA061004C6D09 /* MyDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDatabaseManager.m; sourceTree = "<group>"; };
 		C0414AE7189EA08B004C6D09 /* MyDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyDatabase.xcdatamodel; sourceTree = "<group>"; };
-		C0414B1B189EA944004C6D09 /* IQDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IQDatabase.xcdatamodel; sourceTree = "<group>"; };
-		C0414B1D189EA944004C6D09 /* IQTableOfflineImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineImageStore.h; sourceTree = "<group>"; };
-		C0414B1E189EA944004C6D09 /* IQTableOfflineImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineImageStore.m; sourceTree = "<group>"; };
-		C0414B1F189EA944004C6D09 /* IQTableOfflineStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableOfflineStore.h; sourceTree = "<group>"; };
-		C0414B20189EA944004C6D09 /* IQTableOfflineStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableOfflineStore.m; sourceTree = "<group>"; };
-		C0414B21189EA944004C6D09 /* IQTableUnsentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTableUnsentStore.h; sourceTree = "<group>"; };
-		C0414B22189EA944004C6D09 /* IQTableUnsentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTableUnsentStore.m; sourceTree = "<group>"; };
-		C0414B23189EA944004C6D09 /* IQOfflineConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQOfflineConstants.h; sourceTree = "<group>"; };
-		C0414B24189EA944004C6D09 /* IQOfflineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQOfflineManager.h; sourceTree = "<group>"; };
-		C0414B25189EA944004C6D09 /* IQOfflineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQOfflineManager.m; sourceTree = "<group>"; };
+		C099D805189F29C200D3A288 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C0E3AEFF189E8DB700CFABDD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -114,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C099D806189F29C200D3A288 /* SystemConfiguration.framework in Frameworks */,
 				C0E3AF00189E8DB700CFABDD /* CoreData.framework in Frameworks */,
 				9D84469F1897F7AC000DD533 /* CoreGraphics.framework in Frameworks */,
 				9D8446A11897F7AC000DD533 /* UIKit.framework in Frameworks */,
@@ -158,6 +146,7 @@
 		9D84469B1897F7AC000DD533 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C099D805189F29C200D3A288 /* SystemConfiguration.framework */,
 				9D84469C1897F7AC000DD533 /* Foundation.framework */,
 				9D84469E1897F7AC000DD533 /* CoreGraphics.framework */,
 				9D8446A01897F7AC000DD533 /* UIKit.framework */,
@@ -224,7 +213,6 @@
 			isa = PBXGroup;
 			children = (
 				C0414AD9189EA061004C6D09 /* MyDatabaseManager */,
-				C0414B18189EA944004C6D09 /* IQOfflineManager */,
 				9D8446D51897F7D9000DD533 /* IQDatabaseManager.h */,
 				9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */,
 			);
@@ -271,39 +259,6 @@
 				C0414AE6189EA08B004C6D09 /* MyDatabase.xcdatamodeld */,
 			);
 			path = "My Database Model";
-			sourceTree = "<group>";
-		};
-		C0414B18189EA944004C6D09 /* IQOfflineManager */ = {
-			isa = PBXGroup;
-			children = (
-				C0414B19189EA944004C6D09 /* Database Model */,
-				C0414B1C189EA944004C6D09 /* Entities */,
-				C0414B23189EA944004C6D09 /* IQOfflineConstants.h */,
-				C0414B24189EA944004C6D09 /* IQOfflineManager.h */,
-				C0414B25189EA944004C6D09 /* IQOfflineManager.m */,
-			);
-			path = IQOfflineManager;
-			sourceTree = "<group>";
-		};
-		C0414B19189EA944004C6D09 /* Database Model */ = {
-			isa = PBXGroup;
-			children = (
-				C0414B1A189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld */,
-			);
-			path = "Database Model";
-			sourceTree = "<group>";
-		};
-		C0414B1C189EA944004C6D09 /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-				C0414B1D189EA944004C6D09 /* IQTableOfflineImageStore.h */,
-				C0414B1E189EA944004C6D09 /* IQTableOfflineImageStore.m */,
-				C0414B1F189EA944004C6D09 /* IQTableOfflineStore.h */,
-				C0414B20189EA944004C6D09 /* IQTableOfflineStore.m */,
-				C0414B21189EA944004C6D09 /* IQTableUnsentStore.h */,
-				C0414B22189EA944004C6D09 /* IQTableUnsentStore.m */,
-			);
-			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,11 +337,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D8DF0C3189BEC02005AEB86 /* Main.storyboard in Resources */,
 				9D8DF0D8189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png in Resources */,
 				9D8DF0D9189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png in Resources */,
 				9D8446B51897F7AC000DD533 /* Images.xcassets in Resources */,
 				9D8446A71897F7AC000DD533 /* InfoPlist.strings in Resources */,
+				C0F165F6189F2E9E00C59EAF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,11 +374,6 @@
 				C0414AE4189EA061004C6D09 /* Settings.m in Sources */,
 				C0414AE5189EA061004C6D09 /* MyDatabaseManager.m in Sources */,
 				C0414AE8189EA08B004C6D09 /* MyDatabase.xcdatamodeld in Sources */,
-				C0414B26189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld in Sources */,
-				C0414B27189EA944004C6D09 /* IQTableOfflineImageStore.m in Sources */,
-				C0414B28189EA944004C6D09 /* IQTableOfflineStore.m in Sources */,
-				C0414B29189EA944004C6D09 /* IQTableUnsentStore.m in Sources */,
-				C0414B2A189EA944004C6D09 /* IQOfflineManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,16 +597,6 @@
 			);
 			currentVersion = C0414AE7189EA08B004C6D09 /* MyDatabase.xcdatamodel */;
 			path = MyDatabase.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		C0414B1A189EA944004C6D09 /* IQOfflineDatabase.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C0414B1B189EA944004C6D09 /* IQDatabase.xcdatamodel */,
-			);
-			currentVersion = C0414B1B189EA944004C6D09 /* IQDatabase.xcdatamodel */;
-			path = IQOfflineDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -8,7 +8,7 @@
 
 +(NSString*)modelName
 {
-    return @"MyDatabaseManager";
+    return @"MyDatabase";
 }
 
 #pragma mark - RecordTable

@@ -8,16 +8,6 @@ IQDatabaseManager contains CoreData helper classes with convenience methods to c
 2) Convenience methods to do Searching and Sorting.
 
 
-IQOfflineManager
----
-I also created a subclass called IQOfflineManager which provide methods to communicate with web-services.
-## IQOfflineManager Features:-
-
-1) It stores the NSData for later use when offline.(Downloading+Offline)
-
-2) It stores the NSURLRequest object and send request to upload data when an internet connection found.(Uploading+Offline)
-
-
 MyDatabaseManager
 ---
 I created another subclass called MyDatabaseManager for demo purpose.
