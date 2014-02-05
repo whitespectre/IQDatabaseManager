@@ -113,7 +113,7 @@
     
     if (sharedDictionary == nil)    sharedDictionary = [[NSMutableDictionary alloc] init];
     
-    id sharedObject = [sharedDictionary objectForKey:self];
+    id sharedObject = [sharedDictionary objectForKey:NSStringFromClass([self class])];
     
     if (sharedObject == nil)
     {
@@ -121,7 +121,7 @@
         {
             sharedObject = [[self alloc] init];
             
-            [sharedDictionary setObject:sharedObject forKey:self];
+            [sharedDictionary setObject:sharedObject forKey:NSStringFromClass([self class])];
         }
         else
         {
@@ -252,6 +252,31 @@
     return [[self allObjectsFromTable:tableName] lastObject];
 }
 
+#pragma mark - Insert & Update Records
+
+//Update object
+- (NSManagedObject*)updateRecord:(NSManagedObject*)object withAttribute:(NSDictionary*)dictionary
+{
+    NSArray *allKeys = [dictionary allKeys];
+    
+    for (NSString *aKey in allKeys)
+    {
+        id value = [dictionary objectForKey:aKey];
+        [object setValue:value forKey:aKey];
+    }
+    
+    [self save];
+    return object;
+}
+
+//Insert objects
+- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary
+{
+    //creating NSManagedObject for inserting records
+    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:tableName inManagedObjectContext:_managedObjectContext];
+    
+    return [self updateRecord:object withAttribute:dictionary];
+}
 
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create
 {
@@ -292,32 +317,6 @@
     return [[self allObjectsFromTable:tableName wherePredicate:predicate] lastObject];
 }
 
-
-#pragma mark - Insert & Update Records
-//Insert objects
-- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary
-{
-    //creating NSManagedObject for inserting records
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:tableName inManagedObjectContext:_managedObjectContext];
-    
-    return [self updateRecord:object withAttribute:dictionary];
-}
-
-//Update object
-- (NSManagedObject*)updateRecord:(NSManagedObject*)object withAttribute:(NSDictionary*)dictionary
-{
-    NSArray *allKeys = [dictionary allKeys];
-    
-    for (NSString *aKey in allKeys)
-    {
-        id value = [dictionary objectForKey:aKey];
-        [object setValue:value forKey:aKey];
-    }
-
-    [self save];
-    return object;
-}
-
 - (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary updateOnExistKey:(NSString*)key equals:(id)value
 {
     NSManagedObject *object = [self firstObjectFromTable:tableName where:key equals:value];
@@ -331,7 +330,6 @@
         return [self insertRecordInTable:tableName withAttribute:dictionary];
     }
 }
-
 
 #pragma mark - Delete Records
 //Delete all records in table.

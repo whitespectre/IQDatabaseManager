@@ -94,6 +94,7 @@
 		C0414AE7189EA08B004C6D09 /* MyDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyDatabase.xcdatamodel; sourceTree = "<group>"; };
 		C099D805189F29C200D3A288 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C0E3AEFF189E8DB700CFABDD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C0ED0AA018A1C6260071D3A1 /* IQDatabaseManagerSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQDatabaseManagerSubclass.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +216,7 @@
 				C0414AD9189EA061004C6D09 /* MyDatabaseManager */,
 				9D8446D51897F7D9000DD533 /* IQDatabaseManager.h */,
 				9D8446D61897F7D9000DD533 /* IQDatabaseManager.m */,
+				C0ED0AA018A1C6260071D3A1 /* IQDatabaseManagerSubclass.h */,
 			);
 			path = IQDatabaseManager;
 			sourceTree = "<group>";

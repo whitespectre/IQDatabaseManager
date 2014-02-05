@@ -3,6 +3,7 @@
 //  DatabaseManager
 
 #import "MyDatabaseManager.h"
+#import "IQDatabaseManagerSubclass.h"
 
 @implementation MyDatabaseManager
 
