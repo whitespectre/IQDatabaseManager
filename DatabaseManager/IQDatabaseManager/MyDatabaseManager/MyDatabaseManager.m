@@ -7,10 +7,20 @@
 
 @implementation MyDatabaseManager
 
-+(NSString*)modelName
++(NSURL*)modelURL
+{
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"MyDatabase" withExtension:IQ_MODEL_EXTENSION_momd];
+    
+    if (modelURL == nil)    modelURL = [[NSBundle mainBundle] URLForResource:@"MyDatabase" withExtension:IQ_MODEL_EXTENSION_mom];
+
+    return modelURL;
+}
+
++(NSString*)sqliteFileName
 {
     return @"MyDatabase";
 }
+
 
 #pragma mark - RecordTable
 - (NSArray *)allRecordsSortByAttribute:(NSString*)attribute

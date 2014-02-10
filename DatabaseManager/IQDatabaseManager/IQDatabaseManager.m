@@ -47,7 +47,7 @@
 
 @end
 
-//Actual Implementation.
+
 @implementation IQDatabaseManager
 {
     NSManagedObjectContext *_managedObjectContext;
@@ -55,38 +55,35 @@
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
 }
 
-#pragma mark - Initialize and Save.
 
-
-+(NSString*)modelName
+#pragma mark - Abstract method exceptions.
++(NSURL*)modelURL
 {
     NSString *selector = NSStringFromSelector(_cmd);
     [NSException raise:NSInternalInconsistencyException format:@"%@ is abstract method You must override %@ method in %@ class and must not call [super %@].",selector,selector,NSStringFromClass([self class]),selector];
     return nil;
 }
 
++(NSString*)sqliteFileName
+{
+    NSString *selector = NSStringFromSelector(_cmd);
+    [NSException raise:NSInternalInconsistencyException format:@"%@ is abstract method You must override %@ method in %@ class and must not call [super %@].",selector,selector,NSStringFromClass([self class]),selector];
+    return nil;
+}
+
+#pragma mark - Initialize and Save.
 - (id)init
 {
     self = [super init];
     if (self)
     {
-        //Initializing ManagedObjectModel
-        {
-            NSURL *modelURL = [[NSBundle mainBundle] URLForResource:[[self class] modelName] withExtension:@"momd"];
-            
-            if (modelURL == nil)
-            {
-                modelURL = [[NSBundle mainBundle] URLForResource:[[self class] modelName] withExtension:@"mom"];
-            }
-            
-            _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-        }
+        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[self class] modelURL]];
 
         //Initializing persistentStoreCoordinator with ManagedObjectModel.
         {
             NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
             
-            NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",[[self class] modelName]]];
+            NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",[[self class] sqliteFileName]]];
             
             NSError *error = nil;
             _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_managedObjectModel];
@@ -211,10 +208,31 @@
 /***Key Value predicate***/
 - (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor
 {
-    NSPredicate *predicate;
-    if (key && value)   predicate = [NSPredicate predicateWithFormat:@"self.%@ == %@",key,value];
+    if (key && value)
+    {
+        if ([value isKindOfClass:[NSNumber class]] || [value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSDate class]])
+        {
+            NSPredicate *predicate;
+            if (key && value)   predicate = [NSPredicate predicateWithFormat:@"self.%@ == %@",key,value];
+            return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor];
+        }
+        else
+        {
+            NSArray *allObjects = [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor];
+            
+            NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+            
+            for (NSManagedObject *object in allObjects)
+                if ([[object valueForKey:key] isEqual:value])
+                    [filteredArray addObject:object];
 
-    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor];
+            return filteredArray;
+        }
+    }
+    else
+    {
+        return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor];
+    }
 }
 
 - (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value

@@ -52,9 +52,6 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 //Shared Object.
 + (IQ_INSTANCETYPE )sharedManager;
 
--(NSArray*)tableNames;
--(NSDictionary*)attributesForTable:(NSString*)tableName;
-
 //Save context
 - (BOOL)save;
 
