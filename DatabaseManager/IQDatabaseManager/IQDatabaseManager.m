@@ -64,13 +64,6 @@
     return nil;
 }
 
-+(NSString*)sqliteFileName
-{
-    NSString *selector = NSStringFromSelector(_cmd);
-    [NSException raise:NSInternalInconsistencyException format:@"%@ is abstract method You must override %@ method in %@ class and must not call [super %@].",selector,selector,NSStringFromClass([self class]),selector];
-    return nil;
-}
-
 #pragma mark - Initialize and Save.
 - (id)init
 {
@@ -83,7 +76,7 @@
         {
             NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
             
-            NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",[[self class] sqliteFileName]]];
+            NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",NSStringFromClass([self class])]];
             
             NSError *error = nil;
             _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_managedObjectModel];

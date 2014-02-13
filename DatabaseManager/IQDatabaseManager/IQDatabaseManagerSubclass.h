@@ -20,13 +20,10 @@
 
 //Abstract methods. Must override this method in subclasses and return your databaseModel name.
 +(NSURL*)modelURL;
-+(NSString*)sqliteFileName;
-
 
 #pragma mark - Fetch Table Names & Attribute names for table
 -(NSArray*)tableNames;
 -(NSDictionary*)attributesForTable:(NSString*)tableName;
-
 
 #pragma mark - Fetch Records
 /*Predicate and sort discriptor*/
@@ -44,6 +41,7 @@
 
 
 #pragma mark - First/Last object
+
 
 /*First object*/
 - (NSManagedObject *)firstObjectFromTable:(NSString*)tableName;
@@ -71,6 +69,5 @@
 - (BOOL)deleteRecord:(NSManagedObject*)object;
 //Delete all the records in table
 -(BOOL)flushTable:(NSString*)tableName;
-
 
 @end

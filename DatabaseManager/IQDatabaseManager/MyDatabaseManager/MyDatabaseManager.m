@@ -16,12 +16,6 @@
     return modelURL;
 }
 
-+(NSString*)sqliteFileName
-{
-    return @"MyDatabase";
-}
-
-
 #pragma mark - RecordTable
 - (NSArray *)allRecordsSortByAttribute:(NSString*)attribute
 {
@@ -75,7 +69,7 @@
     if (settings == nil)
     {
         //Inserting default settings
-        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"password", nil];
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],kPassword, nil];
         
         settings = (Settings*)[self insertRecordInTable:NSStringFromClass([Settings class]) withAttribute:dict];
     }
