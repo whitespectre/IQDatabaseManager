@@ -126,7 +126,9 @@
 //Save context.
 -(BOOL)save;
 {
-    return [_managedObjectContext save:nil];
+    @synchronized(_managedObjectContext) {
+        return [_managedObjectContext save:nil];
+    }
 }
 
 -(NSArray*)tableNames
@@ -179,7 +181,9 @@
     if (predicate)  [fetchRequest setPredicate:predicate];
     if (descriptor) [fetchRequest setSortDescriptors:[NSArray arrayWithObject:descriptor]];
 
-    return [_managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    @synchronized(_managedObjectContext) {
+        return [_managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    }
 }
 
 - (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor
