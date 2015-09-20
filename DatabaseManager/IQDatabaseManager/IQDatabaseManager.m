@@ -23,6 +23,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#import <Foundation/Foundation.h>
+
 //iOS 5 compatibility method
 @implementation NSArray (iOS5_firstObject)
 
@@ -45,12 +47,13 @@
 //Created by Iftekhar. 18/4/13.
 @interface IQDatabaseManager()
 
+@property(nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
 @end
 
 
 @implementation IQDatabaseManager
 {
-    NSManagedObjectContext *_managedObjectContext;
     NSManagedObjectModel *_managedObjectModel;
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
 }
@@ -80,17 +83,33 @@
             
             NSError *error = nil;
             _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_managedObjectModel];
-            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+            
+            // Set Core Data migration options
+            // For automatic lightweight migration set NSInferMappingModelAutomaticallyOption to YES
+            // For automatic migration using a mapping model set NSInferMappingModelAutomaticallyOption to YES
+            NSDictionary *optionsDictionary = @{NSMigratePersistentStoresAutomaticallyOption:@(YES),
+                                                NSInferMappingModelAutomaticallyOption:@(YES)};
+            
+            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error])
             {
                 NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
+                
+                //Removign file and now trying once again
                 [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-                abort();
+                
+                if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+                {
+                    //If issue still not resolved then removing file and aborting.
+                    [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+                    abort();
+                }
             }
         }
         
         //Initializing ManagedObjectContext with persistentStoreCoordinator
         {
             _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+            _managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
             [_managedObjectContext setPersistentStoreCoordinator:_persistentStoreCoordinator];
         }
     }
@@ -107,16 +126,26 @@
     
     if (sharedObject == nil)
     {
-        if (![NSStringFromClass(self) isEqualToString:NSStringFromClass([IQDatabaseManager class])])
-        {
-            sharedObject = [[self alloc] init];
+        @synchronized(self) {
             
-            [sharedDictionary setObject:sharedObject forKey:NSStringFromClass([self class])];
-        }
-        else
-        {
-            [NSException raise:NSInternalInconsistencyException format:@"You must subclass %@",NSStringFromClass([IQDatabaseManager class])];
-            return nil;
+            //Again trying (May be set from another thread)
+            id sharedObject = [sharedDictionary objectForKey:NSStringFromClass([self class])];
+            
+            if (sharedObject)
+            {
+                return sharedObject;
+            }
+            else if (![NSStringFromClass(self) isEqualToString:NSStringFromClass([IQDatabaseManager class])])
+            {
+                sharedObject = [[self alloc] init];
+                
+                [sharedDictionary setObject:sharedObject forKey:NSStringFromClass([self class])];
+            }
+            else
+            {
+                [NSException raise:NSInternalInconsistencyException format:@"You must subclass %@",NSStringFromClass([IQDatabaseManager class])];
+                return nil;
+            }
         }
     }
     
@@ -126,8 +155,35 @@
 //Save context.
 -(BOOL)save;
 {
-    @synchronized(_managedObjectContext) {
-        return [_managedObjectContext save:nil];
+    if ([_managedObjectContext hasChanges])
+    {
+        __block NSError *error = nil;
+        __block BOOL isSaved = NO;
+        
+        [_managedObjectContext performBlockAndWait:^{
+            
+            isSaved = [_managedObjectContext save:&error];
+            
+            if (error)
+            {
+                NSLog(@"Error Saving Database: %@",error);
+            }
+        }];
+        
+        return isSaved;
+        
+        //            BOOL isSaved = [_managedObjectContext save:&error];
+        //
+        //            if (error)
+        //            {
+        //                NSLog(@"Error Saving Database: %@",error);
+        //            }
+        //
+        //            return isSaved;
+    }
+    else
+    {
+        return NO;
     }
 }
 
@@ -180,10 +236,13 @@
     
     if (predicate)  [fetchRequest setPredicate:predicate];
     if (descriptor) [fetchRequest setSortDescriptors:[NSArray arrayWithObject:descriptor]];
-
-    @synchronized(_managedObjectContext) {
-        return [_managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    }
+    
+    __block NSArray *objects = nil;
+    [_managedObjectContext performBlockAndWait:^{
+        objects = [_managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    }];
+    
+    return objects;
 }
 
 - (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor
@@ -272,12 +331,20 @@
 //Update object
 - (NSManagedObject*)updateRecord:(NSManagedObject*)object withAttribute:(NSDictionary*)dictionary
 {
-    NSArray *allKeys = [dictionary allKeys];
+    NSArray *allValidKeys = object.entity.attributesByName.allKeys;
     
-    for (NSString *aKey in allKeys)
+    for (NSString *aKey in allValidKeys)
     {
         id value = [dictionary objectForKey:aKey];
-        [object setValue:value forKey:aKey];
+        
+        if (value && [value isKindOfClass:[NSNull class]] == NO)
+        {
+            [object setValue:value forKey:aKey];
+        }
+        else if ([value isKindOfClass:[NSNull class]])
+        {
+            //            NSLog(@"Found Null");
+        }
     }
     
     [self save];
@@ -352,10 +419,12 @@
 {
     NSArray *records = [self allObjectsFromTable:tableName];
     
-    for (NSManagedObject *object in records)
-    {
-        [_managedObjectContext deleteObject:object];
-    }
+    [_managedObjectContext performBlockAndWait:^{
+        for (NSManagedObject *object in records)
+        {
+            [_managedObjectContext deleteObject:object];
+        }
+    }];
     
     return [self save];
 }
@@ -363,7 +432,10 @@
 //Delete object
 -(BOOL)deleteRecord:(NSManagedObject*)object
 {
-    [_managedObjectContext deleteObject:object];
+    [_managedObjectContext performBlockAndWait:^{
+        [_managedObjectContext deleteObject:object];
+    }];
+    
     return [self save];
 }
 

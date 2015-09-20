@@ -18,6 +18,8 @@
 //Created by Iftekhar. 17/4/13.
 @interface IQDatabaseManager (ForSubclassEyesOnly)
 
+@property(nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
 //Abstract methods. Must override this method in subclasses and return your databaseModel name.
 +(NSURL*)modelURL;
 
