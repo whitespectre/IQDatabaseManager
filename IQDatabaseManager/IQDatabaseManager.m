@@ -24,19 +24,6 @@
  */
 
 #import <Foundation/Foundation.h>
-
-//iOS 5 compatibility method
-@implementation NSArray (iOS5_firstObject)
-
--(id)firstObject
-{
-    return ([self count] > 0)?[self objectAtIndex:0]:nil;
-}
-
-@end
-
-
-
 #import "IQDatabaseManager.h"
 
 /*************************************/
@@ -160,9 +147,11 @@
         __block NSError *error = nil;
         __block BOOL isSaved = NO;
         
+        __weak typeof(self) weakSelf = self;
+
         [_managedObjectContext performBlockAndWait:^{
             
-            isSaved = [_managedObjectContext save:&error];
+            isSaved = [weakSelf.managedObjectContext save:&error];
             
             if (error)
             {
@@ -171,15 +160,6 @@
         }];
         
         return isSaved;
-        
-        //            BOOL isSaved = [_managedObjectContext save:&error];
-        //
-        //            if (error)
-        //            {
-        //                NSLog(@"Error Saving Database: %@",error);
-        //            }
-        //
-        //            return isSaved;
     }
     else
     {
@@ -238,8 +218,11 @@
     if (descriptor) [fetchRequest setSortDescriptors:[NSArray arrayWithObject:descriptor]];
     
     __block NSArray *objects = nil;
+    
+    __weak typeof(self) weakSelf = self;
+
     [_managedObjectContext performBlockAndWait:^{
-        objects = [_managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        objects = [weakSelf.managedObjectContext executeFetchRequest:fetchRequest error:nil];
     }];
     
     return objects;
@@ -419,23 +402,19 @@
 {
     NSArray *records = [self allObjectsFromTable:tableName];
     
-    [_managedObjectContext performBlockAndWait:^{
-        for (NSManagedObject *object in records)
-        {
-            [_managedObjectContext deleteObject:object];
-        }
-    }];
-    
+    for (NSManagedObject *object in records)
+    {
+        [object.managedObjectContext deleteObject:object];
+    }
+
     return [self save];
 }
 
 //Delete object
 -(BOOL)deleteRecord:(NSManagedObject*)object
 {
-    [_managedObjectContext performBlockAndWait:^{
-        [_managedObjectContext deleteObject:object];
-    }];
-    
+    [object.managedObjectContext deleteObject:object];
+
     return [self save];
 }
 

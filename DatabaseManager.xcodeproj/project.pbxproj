@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A9A1B2A8E1B1F34FD427A72 /* Pods_DatabaseManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB372C316C0047E910425CAE /* Pods_DatabaseManager.framework */; };
 		4C5F7EF6206CF7D00088E0F4 /* MyDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F7EEC206CF7D00088E0F4 /* MyDatabaseManager.m */; };
 		4C5F7EF7206CF7D00088E0F4 /* MyDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F7EEF206CF7D00088E0F4 /* MyDatabase.xcdatamodeld */; };
 		4C5F7EF8206CF7D00088E0F4 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5F7EF4206CF7D00088E0F4 /* Settings.m */; };
@@ -29,9 +30,6 @@
 		9D8DF0C9189BECBA005AEB86 /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0C8189BECBA005AEB86 /* UpdateViewController.m */; };
 		9D8DF0CC189BECC5005AEB86 /* InsertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0CB189BECC5005AEB86 /* InsertViewController.m */; };
 		9D8DF0D2189BF1AA005AEB86 /* AllRecordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D1189BF1AA005AEB86 /* AllRecordsViewController.m */; };
-		9D8DF0D8189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D4189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png */; };
-		9D8DF0D9189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */; };
-		9D8DF0DA189BF4B0005AEB86 /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */; };
 		9D8DF0DD189BF642005AEB86 /* RecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DF0DC189BF642005AEB86 /* RecordCell.m */; };
 		C099D806189F29C200D3A288 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C099D805189F29C200D3A288 /* SystemConfiguration.framework */; };
 		C0E3AF00189E8DB700CFABDD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E3AEFF189E8DB700CFABDD /* CoreData.framework */; };
@@ -49,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		149F42AE7996AB5943A1CD6C /* Pods-DatabaseManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DatabaseManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DatabaseManager/Pods-DatabaseManager.debug.xcconfig"; sourceTree = "<group>"; };
+		1B5062C007FA1EADFAED1944 /* Pods-DatabaseManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DatabaseManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-DatabaseManager/Pods-DatabaseManager.release.xcconfig"; sourceTree = "<group>"; };
 		4C5F7EEB206CF7D00088E0F4 /* MyDatabaseConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDatabaseConstants.h; sourceTree = "<group>"; };
 		4C5F7EEC206CF7D00088E0F4 /* MyDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDatabaseManager.m; sourceTree = "<group>"; };
 		4C5F7EED206CF7D00088E0F4 /* MyDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDatabaseManager.h; sourceTree = "<group>"; };
@@ -86,12 +86,9 @@
 		9D8DF0CB189BECC5005AEB86 /* InsertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsertViewController.m; sourceTree = "<group>"; };
 		9D8DF0D0189BF1AA005AEB86 /* AllRecordsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllRecordsViewController.h; sourceTree = "<group>"; };
 		9D8DF0D1189BF1AA005AEB86 /* AllRecordsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllRecordsViewController.m; sourceTree = "<group>"; };
-		9D8DF0D4189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQButtonBarArrowLeft@2x.png"; sourceTree = "<group>"; };
-		9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IQButtonBarArrowRight@2x.png"; sourceTree = "<group>"; };
-		9D8DF0D6189BF4B0005AEB86 /* IQKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardManager.h; sourceTree = "<group>"; };
-		9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQKeyboardManager.m; sourceTree = "<group>"; };
 		9D8DF0DB189BF642005AEB86 /* RecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordCell.h; sourceTree = "<group>"; };
 		9D8DF0DC189BF642005AEB86 /* RecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordCell.m; sourceTree = "<group>"; };
+		AB372C316C0047E910425CAE /* Pods_DatabaseManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DatabaseManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C099D805189F29C200D3A288 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C0E3AEFF189E8DB700CFABDD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C0ED0AA018A1C6260071D3A1 /* IQDatabaseManagerSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQDatabaseManagerSubclass.h; sourceTree = "<group>"; };
@@ -107,6 +104,7 @@
 				9D84469F1897F7AC000DD533 /* CoreGraphics.framework in Frameworks */,
 				9D8446A11897F7AC000DD533 /* UIKit.framework in Frameworks */,
 				9D84469D1897F7AC000DD533 /* Foundation.framework in Frameworks */,
+				0A9A1B2A8E1B1F34FD427A72 /* Pods_DatabaseManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,12 +155,12 @@
 		9D8446901897F7AC000DD533 = {
 			isa = PBXGroup;
 			children = (
-				9D8DF0D3189BF4B0005AEB86 /* IQKeyBoardManager */,
 				9D8446D11897F7D9000DD533 /* IQDatabaseManager */,
 				9D8446A21897F7AC000DD533 /* DatabaseManager */,
 				9D8446C11897F7AC000DD533 /* DatabaseManagerTests */,
 				9D84469B1897F7AC000DD533 /* Frameworks */,
 				9D84469A1897F7AC000DD533 /* Products */,
+				CDFEC65944328EBA02FE0CAF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -184,6 +182,7 @@
 				9D8446A01897F7AC000DD533 /* UIKit.framework */,
 				C0E3AEFF189E8DB700CFABDD /* CoreData.framework */,
 				9D8446BB1897F7AC000DD533 /* XCTest.framework */,
+				AB372C316C0047E910425CAE /* Pods_DatabaseManager.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -252,15 +251,13 @@
 			path = IQDatabaseManager;
 			sourceTree = "<group>";
 		};
-		9D8DF0D3189BF4B0005AEB86 /* IQKeyBoardManager */ = {
+		CDFEC65944328EBA02FE0CAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9D8DF0D4189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png */,
-				9D8DF0D5189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png */,
-				9D8DF0D6189BF4B0005AEB86 /* IQKeyboardManager.h */,
-				9D8DF0D7189BF4B0005AEB86 /* IQKeyboardManager.m */,
+				149F42AE7996AB5943A1CD6C /* Pods-DatabaseManager.debug.xcconfig */,
+				1B5062C007FA1EADFAED1944 /* Pods-DatabaseManager.release.xcconfig */,
 			);
-			path = IQKeyBoardManager;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,9 +267,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9D8446CB1897F7AC000DD533 /* Build configuration list for PBXNativeTarget "DatabaseManager" */;
 			buildPhases = (
+				B1BA4BA35D98D4425030CC13 /* [CP] Check Pods Manifest.lock */,
 				9D8446951897F7AC000DD533 /* Sources */,
 				9D8446961897F7AC000DD533 /* Frameworks */,
 				9D8446971897F7AC000DD533 /* Resources */,
+				FE1F00F2A98D37CD164A8E3B /* [CP] Embed Pods Frameworks */,
+				1FF513FC69A9CEBD2B43C4C5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -339,8 +339,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D8DF0D8189BF4B0005AEB86 /* IQButtonBarArrowLeft@2x.png in Resources */,
-				9D8DF0D9189BF4B0005AEB86 /* IQButtonBarArrowRight@2x.png in Resources */,
 				9D8446B51897F7AC000DD533 /* Images.xcassets in Resources */,
 				9D8446A71897F7AC000DD533 /* InfoPlist.strings in Resources */,
 				C0F165F6189F2E9E00C59EAF /* Main.storyboard in Resources */,
@@ -357,12 +355,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1FF513FC69A9CEBD2B43C4C5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DatabaseManager/Pods-DatabaseManager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1BA4BA35D98D4425030CC13 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DatabaseManager-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE1F00F2A98D37CD164A8E3B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DatabaseManager/Pods-DatabaseManager-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/IQDatabaseManager/IQDatabaseManager.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQDatabaseManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DatabaseManager/Pods-DatabaseManager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9D8446951897F7AC000DD533 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D8DF0DA189BF4B0005AEB86 /* IQKeyboardManager.m in Sources */,
 				4C5F7EF9206CF7D00088E0F4 /* RecordTable.m in Sources */,
 				9D8446B31897F7AC000DD533 /* ViewController.m in Sources */,
 				4C5F7EF8206CF7D00088E0F4 /* Settings.m in Sources */,
@@ -491,13 +544,14 @@
 		};
 		9D8446CC1897F7AC000DD533 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 149F42AE7996AB5943A1CD6C /* Pods-DatabaseManager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DatabaseManager/DatabaseManager-Prefix.pch";
 				INFOPLIST_FILE = "DatabaseManager/DatabaseManager-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -505,13 +559,14 @@
 		};
 		9D8446CD1897F7AC000DD533 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B5062C007FA1EADFAED1944 /* Pods-DatabaseManager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DatabaseManager/DatabaseManager-Prefix.pch";
 				INFOPLIST_FILE = "DatabaseManager/DatabaseManager-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

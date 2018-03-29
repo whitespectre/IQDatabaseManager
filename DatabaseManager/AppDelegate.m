@@ -23,10 +23,6 @@
     //Resign textField if touched outside of UITextField/UITextView.
     [[IQKeyboardManager sharedManager] setShouldResignOnTouchOutside:YES];
     
-    //Giving permission to modify TextView's frame
-    [[IQKeyboardManager sharedManager] setCanAdjustTextView:YES];
-    
-    
     // Override point for customization after application launch.
     return YES;
 }

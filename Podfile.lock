@@ -1,0 +1,19 @@
+PODS:
+  - IQDatabaseManager (1.0.0)
+  - IQKeyboardManager (5.0.8)
+
+DEPENDENCIES:
+  - IQDatabaseManager (from `.`)
+  - IQKeyboardManager
+
+EXTERNAL SOURCES:
+  IQDatabaseManager:
+    :path: .
+
+SPEC CHECKSUMS:
+  IQDatabaseManager: 5e8ec03d15bb6870d612e4cb9947037f67e1df06
+  IQKeyboardManager: 266cb7b1d11f94a3e71229d77f960f9a1b538e5b
+
+PODFILE CHECKSUM: c65477d7355d1aaab1b1f389bf96fd1b3a56b7ac
+
+COCOAPODS: 1.4.0
