@@ -18,10 +18,11 @@
 //Created by Iftekhar. 17/4/13.
 @interface IQDatabaseManager (ForSubclassEyesOnly)
 
-@property(nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property(nonatomic, strong) NSManagedObjectContext *mainContext;
 
 //Abstract methods. Must override this method in subclasses and return your databaseModel name.
 +(NSURL*)modelURL;
++(NSURL*)storeURL;
 
 #pragma mark - Fetch Table Names & Attribute names for table
 -(NSArray*)tableNames;
@@ -29,47 +30,112 @@
 
 #pragma mark - Fetch Records
 /*Predicate and sort discriptor*/
-- (NSArray *)allObjectsFromTable:(NSString*)tableName;
-- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate;
-- (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor;
-- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate sortDescriptor:(NSSortDescriptor*)descriptor;
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                                    inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                               wherePredicate:(NSPredicate*)predicate
+                                         includingSubentities:(BOOL)includeSubentities
+                                                    inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                               wherePredicate:(NSPredicate*)predicate
+                                                    inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                               sortDescriptor:(NSSortDescriptor*)descriptor
+                                                    inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                               wherePredicate:(NSPredicate*)predicate
+                                               sortDescriptor:(NSSortDescriptor*)descriptor
+                                                    inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <NSDictionary<NSString*,id>*> *)distictObjectsForAttribute:(NSString*)attribute
+                                                         forTableName:(NSString*)tableName
+                                                            predicate:(NSPredicate*)predicate
+                                                            inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <NSDictionary<NSString*,id>*> *)distictObjectsForAttribute:(NSString*)attribute
+                                                         forTableName:(NSString*)tableName
+                                                            predicate:(NSPredicate*)predicate
+                                                   includeSubentities:(BOOL)includeSubentities
+                                                            inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <NSDictionary<NSString*,id>*> *)allDictionariesFromTable:(NSString*)tableName
+                                                     wherePredicate:(NSPredicate*)predicate
+                                                     sortDescriptor:(NSSortDescriptor*)descriptor
+                                                          inContext:(NSManagedObjectContext*)context;
+
 
 /*Key Value predicate and sortDescriptor*/
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor;
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                                        where:(NSString*)key
+                                                       equals:(id)value
+                                                    inContext:(NSManagedObjectContext*)context;
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value;
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value sortDescriptor:(NSSortDescriptor*)descriptor;
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                                        where:(NSString*)key
+                                                       equals:(id)value
+                                               sortDescriptor:(NSSortDescriptor*)descriptor
+                                                    inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                                        where:(NSString*)key
+                                                     contains:(id)value
+                                                    inContext:(NSManagedObjectContext*)context;
+
+- (NSArray <__kindof NSManagedObject *> *)allObjectsFromTable:(NSString*)tableName
+                                                        where:(NSString*)key
+                                                     contains:(id)value
+                                               sortDescriptor:(NSSortDescriptor*)descriptor
+                                                    inContext:(NSManagedObjectContext*)context;
 
 
 #pragma mark - First/Last object
 
 
 /*First object*/
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName;
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create;
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate;
+- (__kindof NSManagedObject *)firstObjectFromTable:(NSString*)tableName
+                                         inContext:(NSManagedObjectContext*)context;
 
+- (__kindof NSManagedObject *)firstObjectFromTable:(NSString*)tableName
+                                             where:(NSString*)key
+                                            equals:(id)value
+                                         inContext:(NSManagedObjectContext*)context;
 
-/*Last object*/
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName;
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create;
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value;
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate;
+- (__kindof NSManagedObject *)firstObjectFromTable:(NSString*)tableName
+                                    wherePredicate:(NSPredicate*)predicate
+                                         inContext:(NSManagedObjectContext*)context;
+
+- (__kindof NSManagedObject *)firstObjectFromTable:(NSString*)tableName
+                                    wherePredicate:(NSPredicate*)predicate
+                                includeSubentities:(BOOL)includeSubentities
+                                         inContext:(NSManagedObjectContext*)context;
 
 
 //Insert object
-- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary;
+- (__kindof NSManagedObject*)insertRecordInTable:(NSString*)tableName
+                                   withAttribute:(NSDictionary<NSString*,id>*)dictionary
+                                       inContext:(NSManagedObjectContext*)context;
 //Update object
-- (NSManagedObject*)updateRecord:(NSManagedObject*)object withAttribute:(NSDictionary*)dictionary;
-//(Insert || Update) object
-- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary updateOnExistKey:(NSString*)key equals:(id)value;
+- (__kindof NSManagedObject*)updateRecord:(__kindof NSManagedObject*)object
+                            withAttribute:(NSDictionary<NSString*,id>*)dictionary;
 
+//(Insert || Update) object
+- (__kindof NSManagedObject*)insertRecordInTable:(NSString*)tableName
+                                   withAttribute:(NSDictionary<NSString*,id>*)dictionary
+                                updateOnExistKey:(NSString*)key equals:(id)value
+                                       inContext:(NSManagedObjectContext*)context;
 
 //Delete object
-- (BOOL)deleteRecord:(NSManagedObject*)object;
+- (void)deleteRecord:(__kindof NSManagedObject*)object;
+
 //Delete all the records in table
--(BOOL)flushTable:(NSString*)tableName;
+-(void)flushTable:(NSString*)tableName
+        inContext:(NSManagedObjectContext*)context;
+
+-(void)performBlockAndSaveNewPrivateContext:(void(^)(NSManagedObjectContext* privateContext))newPrivateContextHandler
+                             saveCompletion:(void(^)(void))completionHandler;
 
 @end

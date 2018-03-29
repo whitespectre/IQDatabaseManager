@@ -23,7 +23,7 @@
     
     if ([attribute length]) sortDescriptor = [[NSSortDescriptor alloc] initWithKey:attribute ascending:YES];
 
-    return [self allObjectsFromTable:NSStringFromClass([RecordTable class]) sortDescriptor:sortDescriptor];
+    return [self allObjectsFromTable:NSStringFromClass([RecordTable class]) sortDescriptor:sortDescriptor inContext:self.mainContext];
 }
 
 - (NSArray *)allRecordsSortByAttribute:(NSString*)attribute where:(NSString*)key contains:(id)value
@@ -32,17 +32,17 @@
     
     if ([attribute length]) sortDescriptor = [[NSSortDescriptor alloc] initWithKey:attribute ascending:YES];
 
-    return [self allObjectsFromTable:NSStringFromClass([RecordTable class]) where:key contains:value sortDescriptor:sortDescriptor];
+    return [self allObjectsFromTable:NSStringFromClass([RecordTable class]) where:key contains:value sortDescriptor:sortDescriptor inContext:self.mainContext];
 }
 
 -(RecordTable*) insertRecordInRecordTable:(NSDictionary*)recordAttribute
 {
-    return (RecordTable*)[self insertRecordInTable:NSStringFromClass([RecordTable class]) withAttribute:recordAttribute];
+    return (RecordTable*)[self insertRecordInTable:NSStringFromClass([RecordTable class]) withAttribute:recordAttribute inContext:self.mainContext];
 }
 
 - (RecordTable*) insertUpdateRecordInRecordTable:(NSDictionary*)recordAttribute
 {
-    return (RecordTable*)[self insertRecordInTable:NSStringFromClass([RecordTable class]) withAttribute:recordAttribute updateOnExistKey:kEmail equals:[recordAttribute objectForKey:kEmail]];
+    return (RecordTable*)[self insertRecordInTable:NSStringFromClass([RecordTable class]) withAttribute:recordAttribute updateOnExistKey:kEmail equals:[recordAttribute objectForKey:kEmail] inContext:self.mainContext];
 }
 
 - (RecordTable*) updateRecord:(RecordTable*)record inRecordTable:(NSDictionary*)recordAttribute
@@ -50,20 +50,20 @@
     return (RecordTable*)[self updateRecord:record withAttribute:recordAttribute];
 }
 
-- (BOOL) deleteTableRecord:(RecordTable*)record
+- (void) deleteTableRecord:(RecordTable*)record
 {
-    return [self deleteRecord:record];
+    [self deleteRecord:record];
 }
 
--(BOOL) deleteAllTableRecord
+-(void) deleteAllTableRecord
 {
-    return [self flushTable:NSStringFromClass([RecordTable class])];
+    [self flushTable:NSStringFromClass([RecordTable class]) inContext:self.mainContext];
 }
 
 #pragma mark - Settings
 - (Settings*) settings
 {
-    Settings *settings = (Settings*)[self firstObjectFromTable:NSStringFromClass([Settings class])];
+    Settings *settings = [self firstObjectFromTable:NSStringFromClass([Settings class]) inContext:self.mainContext];
     
     //No settings
     if (settings == nil)
@@ -71,7 +71,7 @@
         //Inserting default settings
         NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],kPassword, nil];
         
-        settings = (Settings*)[self insertRecordInTable:NSStringFromClass([Settings class]) withAttribute:dict];
+        settings = (Settings*)[self insertRecordInTable:NSStringFromClass([Settings class]) withAttribute:dict inContext:self.mainContext];
     }
 
     return settings;
@@ -79,8 +79,18 @@
 
 - (Settings*) saveSettings:(NSDictionary*)settings
 {
-    Settings *mySettings = (Settings*)[self firstObjectFromTable:NSStringFromClass([Settings class]) createIfNotExist:YES];
-    return (Settings*)[self updateRecord:mySettings withAttribute:settings];
+    Settings *mySettings = [self firstObjectFromTable:NSStringFromClass([Settings class]) inContext:self.mainContext];
+    
+    if (mySettings)
+    {
+        [self updateRecord:mySettings withAttribute:settings];
+    }
+    else
+    {
+        mySettings = [self insertRecordInTable:NSStringFromClass([Settings class]) withAttribute:settings inContext:self.mainContext];
+    }
+
+    return mySettings;
 }
 
 @end

@@ -13,10 +13,9 @@
 - (RecordTable*) insertRecordInRecordTable:(NSDictionary*)recordAttributes;
 - (RecordTable*) insertUpdateRecordInRecordTable:(NSDictionary*)recordAttributes;
 - (RecordTable*) updateRecord:(RecordTable*)record inRecordTable:(NSDictionary*)recordAttributes;
-- (BOOL) deleteTableRecord:(RecordTable*)record;
 
-
-- (BOOL) deleteAllTableRecord;
+- (void) deleteTableRecord:(RecordTable*)record;
+- (void) deleteAllTableRecord;
 
 - (Settings*) settings;
 - (Settings*) saveSettings:(NSDictionary*)settings;

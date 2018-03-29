@@ -36,23 +36,21 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 */
 
 
-#ifndef IQ_INSTANCETYPE
-    #if __has_feature(objc_instancetype)
-        #define IQ_INSTANCETYPE instancetype
-    #else
-        #define IQ_INSTANCETYPE id
-    #endif
-#endif
-
-
+/*  Private writer context to follow asynchronous saving model.
+ https://www.cocoanetics.com/2012/07/multi-context-coredata/
+ */
 
 //Created by Iftekhar. 17/4/13.
 @interface IQDatabaseManager : NSObject
 
 //Shared Object.
-+ (IQ_INSTANCETYPE )sharedManager;
++ (instancetype)sharedManager;
 
-//Save context
-- (BOOL)save;
+//Save main context
+-(void)saveMainContext:(void(^)(BOOL success, NSError *error))completionHandler;
+-(BOOL)saveMainContextSynchronously;
+
+//Save writer context
+-(void)saveWriterContext:(void(^)(BOOL success, NSError *error))completionHandler;
 
 @end

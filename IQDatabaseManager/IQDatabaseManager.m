@@ -29,21 +29,16 @@
 /*************************************/
 
 //Category Methods are used as private methods. Because these are used only inside the class. Not able to access from outside.
-//Class method are used because these methods are not dependent upon class iVars.
-
-//Created by Iftekhar. 18/4/13.
 @interface IQDatabaseManager()
 
-@property(nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property(nonatomic, strong) NSManagedObjectContext *mainContext;
+@property(nonatomic, strong, readonly) NSManagedObjectContext *privateWriterContext;
+@property(nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
 
 @end
 
 
 @implementation IQDatabaseManager
-{
-    NSManagedObjectModel *_managedObjectModel;
-    NSPersistentStoreCoordinator *_persistentStoreCoordinator;
-}
 
 
 #pragma mark - Abstract method exceptions.
@@ -54,56 +49,66 @@
     return nil;
 }
 
++(NSURL*)storeURL
+{
+    NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",NSStringFromClass([self class])]];
+    
+    return storeURL;
+}
+
 #pragma mark - Initialize and Save.
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
     {
         _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[self class] modelURL]];
-
+        
         //Initializing persistentStoreCoordinator with ManagedObjectModel.
+        NSURL *storeURL = [[self class] storeURL];
+        
+        NSError *error = nil;
+        NSPersistentStoreCoordinator *_persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_managedObjectModel];
+        
+        // Set Core Data migration options
+        // For automatic lightweight migration set NSInferMappingModelAutomaticallyOption to YES
+        // For automatic migration using a mapping model set NSInferMappingModelAutomaticallyOption to YES
+        NSDictionary *optionsDictionary = @{NSMigratePersistentStoresAutomaticallyOption:@(YES),
+                                            NSInferMappingModelAutomaticallyOption:@(YES)};
+        
+        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error])
         {
-            NSURL *applicationDocumentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+            NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
             
-            NSURL *storeURL = [applicationDocumentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite",NSStringFromClass([self class])]];
+            //Removign file and now trying once again
+            [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
             
-            NSError *error = nil;
-            _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_managedObjectModel];
-            
-            // Set Core Data migration options
-            // For automatic lightweight migration set NSInferMappingModelAutomaticallyOption to YES
-            // For automatic migration using a mapping model set NSInferMappingModelAutomaticallyOption to YES
-            NSDictionary *optionsDictionary = @{NSMigratePersistentStoresAutomaticallyOption:@(YES),
-                                                NSInferMappingModelAutomaticallyOption:@(YES)};
-            
-            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error])
+            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
             {
-                NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
-                
-                //Removign file and now trying once again
+                //If issue still not resolved then removing file and aborting.
                 [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-                
-                if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
-                {
-                    //If issue still not resolved then removing file and aborting.
-                    [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-                    abort();
-                }
+                abort();
             }
         }
         
-        //Initializing ManagedObjectContext with persistentStoreCoordinator
+        //Initializing mainContext with persistentStoreCoordinator
         {
-            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-            _managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
-            [_managedObjectContext setPersistentStoreCoordinator:_persistentStoreCoordinator];
+            _privateWriterContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+            _privateWriterContext.name = @"PrivateWriterContext";
+            [_privateWriterContext setPersistentStoreCoordinator:_persistentStoreCoordinator];
+            
+            _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+            _mainContext.name = @"MainContext";
+            _mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
+            _mainContext.parentContext = _privateWriterContext;
         }
     }
+    
     return self;
 }
 
-+(IQ_INSTANCETYPE)sharedManager
++(instancetype)sharedManager
 {
     static NSMutableDictionary *sharedDictionary;
     
@@ -116,7 +121,7 @@
         @synchronized(self) {
             
             //Again trying (May be set from another thread)
-            id sharedObject = [sharedDictionary objectForKey:NSStringFromClass([self class])];
+            sharedObject = [sharedDictionary objectForKey:NSStringFromClass([self class])];
             
             if (sharedObject)
             {
@@ -126,7 +131,7 @@
             {
                 sharedObject = [[self alloc] init];
                 
-                [sharedDictionary setObject:sharedObject forKey:NSStringFromClass([self class])];
+                sharedDictionary[NSStringFromClass([self class])] = sharedObject;
             }
             else
             {
@@ -139,32 +144,103 @@
     return sharedObject;
 }
 
-//Save context.
--(BOOL)save;
+-(BOOL)saveMainContextSynchronously
 {
-    if ([_managedObjectContext hasChanges])
-    {
-        __block NSError *error = nil;
-        __block BOOL isSaved = NO;
+    __weak typeof(self) weakSelf = self;
+    __block BOOL isSaved = NO;
+    
+    [_mainContext performBlockAndWait:^{
         
-        __weak typeof(self) weakSelf = self;
-
-        [_managedObjectContext performBlockAndWait:^{
+        if ([weakSelf.mainContext hasChanges])
+        {
+            NSError *error = nil;
             
-            isSaved = [weakSelf.managedObjectContext save:&error];
+            isSaved = [weakSelf.mainContext save:&error];
             
             if (error)
             {
-                NSLog(@"Error Saving Database: %@",error);
+                NSLog(@"Error Saving main context: %@",error);
             }
-        }];
+        }
+    }];
+    
+    return isSaved;
+}
+
+//Save main context
+-(void)saveMainContext:(void(^)(BOOL success, NSError *error))completionHandler
+{
+    __weak typeof(self) weakSelf = self;
+    
+    [_mainContext performBlock:^{
         
-        return isSaved;
-    }
-    else
-    {
-        return NO;
-    }
+        if ([weakSelf.mainContext hasChanges])
+        {
+            NSError *error = nil;
+            BOOL isSaved = NO;
+            
+            isSaved = [weakSelf.mainContext save:&error];
+            
+            if (error)
+            {
+                NSLog(@"Error Saving main context: %@",error);
+            }
+            
+            if (completionHandler)
+            {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    completionHandler(isSaved,error);
+                }];
+            }
+        }
+        else
+        {
+            if (completionHandler)
+            {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    completionHandler(NO,nil);
+                }];
+            }
+        }
+    }];
+}
+
+//Save writer context
+-(void)saveWriterContext:(void(^)(BOOL success, NSError *error))completionHandler
+{
+    __weak typeof(self) weakSelf = self;
+    
+    [_privateWriterContext performBlock:^{
+        
+        if ([weakSelf.privateWriterContext hasChanges])
+        {
+            NSError *error = nil;
+            BOOL isSaved = NO;
+            
+            [weakSelf.privateWriterContext save:&error];
+            
+            if (error)
+            {
+                NSLog(@"Error Saving private context: %@",error);
+            }
+            
+            if (completionHandler)
+            {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    completionHandler(isSaved,error);
+                }];
+            }
+        }
+        else
+        {
+            if (completionHandler)
+            {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    completionHandler(NO,nil);
+                }];
+            }
+        }
+    }];
 }
 
 -(NSArray*)tableNames
@@ -185,7 +261,7 @@
     {
         if ([[properties objectForKey:key] attributeType] == NSTransformableAttributeType)
         {
-            [attributeDictionary setObject:@"id" forKey:key];
+            attributeDictionary[key] = @"id";
         }
         else
         {
@@ -193,7 +269,7 @@
             
             if (attributeClassName)
             {
-                [attributeDictionary setObject:attributeClassName forKey:key];
+                attributeDictionary[key] = attributeClassName;
             }
         }
     }
@@ -205,47 +281,122 @@
 
 #pragma mark - Fetch Records
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate sortDescriptor:(NSSortDescriptor*)descriptor
+- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate sortDescriptor:(NSSortDescriptor*)descriptor inContext:(NSManagedObjectContext*)context
 {
+    return [self allObjectsFromTable:tableName
+                      wherePredicate:predicate
+                  includeSubentities:NO
+                      sortDescriptor:descriptor
+                           inContext:context];
+}
+
+- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate includeSubentities:(BOOL)includeSubentities sortDescriptor:(NSSortDescriptor*)descriptor inContext:(NSManagedObjectContext*)context
+{
+    context = context ?: _mainContext;
+    
     //Creating fetch request object for fetching records.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:tableName];
+    fetchRequest.includesSubentities = includeSubentities;
+#if TARGET_IPHONE_SIMULATOR
+    [fetchRequest setReturnsObjectsAsFaults:NO];
+#endif
+    
+    if (predicate)  [fetchRequest setPredicate:predicate];
+    if (descriptor) [fetchRequest setSortDescriptors:@[descriptor]];
+    
+    __block NSArray *objects = nil;
+    objects = [context executeFetchRequest:fetchRequest error:nil];
+    
+    return objects;
+}
+
+- (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor inContext:(NSManagedObjectContext*)context
+{
+    return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor inContext:context];
+}
+
+- (NSArray *)allDictionariesFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate sortDescriptor:(NSSortDescriptor*)descriptor inContext:(NSManagedObjectContext*)context
+{
+    context = context ?: _mainContext;
+    
+    //Creating fetch request object for fetching records.
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:tableName];
+    fetchRequest.includesSubentities = NO;
+    [fetchRequest setResultType:NSDictionaryResultType];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    NSArray *allRelationships = entityDescription.relationshipsByName.allKeys;
+    allRelationships = [allRelationships arrayByAddingObjectsFromArray:entityDescription.attributesByName.allKeys];
+    [fetchRequest setPropertiesToFetch:allRelationships];
     
 #if TARGET_IPHONE_SIMULATOR
     [fetchRequest setReturnsObjectsAsFaults:NO];
 #endif
     
     if (predicate)  [fetchRequest setPredicate:predicate];
-    if (descriptor) [fetchRequest setSortDescriptors:[NSArray arrayWithObject:descriptor]];
+    if (descriptor) [fetchRequest setSortDescriptors:@[descriptor]];
     
     __block NSArray *objects = nil;
-    
-    __weak typeof(self) weakSelf = self;
-
-    [_managedObjectContext performBlockAndWait:^{
-        objects = [weakSelf.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    }];
+    objects = [context executeFetchRequest:fetchRequest error:nil];
     
     return objects;
 }
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor
+- (NSArray *)allDictionariesFromTable:(NSString*)tableName sortDescriptor:(NSSortDescriptor*)descriptor inContext:(NSManagedObjectContext*)context
 {
-    return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor];
+    return [self allDictionariesFromTable:tableName wherePredicate:nil sortDescriptor:descriptor inContext:context];
 }
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate
+- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate inContext:(NSManagedObjectContext*)context
 {
-    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:nil];
+    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:nil inContext:context];
 }
 
--(NSArray*)allObjectsFromTable:(NSString*)tableName
+- (NSArray *)allObjectsFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate includingSubentities:(BOOL)includeSubentities inContext:(NSManagedObjectContext*)context
 {
-    return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:nil];
+    return [self allObjectsFromTable:tableName wherePredicate:predicate includeSubentities:includeSubentities sortDescriptor:nil inContext:context];
 }
 
+-(NSArray*)allObjectsFromTable:(NSString*)tableName inContext:(NSManagedObjectContext*)context
+{
+    return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:nil inContext:context];
+}
+
+- (NSArray *)distictObjectsForAttribute:(NSString*)attribute forTableName:(NSString*)tableName predicate:(NSPredicate*)predicate inContext:(NSManagedObjectContext*)context;
+{
+    return [self distictObjectsForAttribute:attribute
+                               forTableName:tableName
+                                  predicate:predicate
+                         includeSubentities:NO
+                                  inContext:context];
+}
+
+- (NSArray *)distictObjectsForAttribute:(NSString*)attribute forTableName:(NSString*)tableName predicate:(NSPredicate*)predicate includeSubentities:(BOOL)includeSubentities inContext:(NSManagedObjectContext*)context
+{
+    context = context ?: _mainContext;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:tableName];
+    fetchRequest.includesSubentities = includeSubentities;
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    if (predicate)  [fetchRequest setPredicate:predicate];
+    
+    // Required! Unless you set the resultType to NSDictionaryResultType, distinct can't work.
+    // All objects in the backing store are implicitly distinct, but two dictionaries can be duplicates.
+    // Since you only want distinct names, only ask for the 'name' property.
+    fetchRequest.resultType = NSDictionaryResultType;
+    fetchRequest.propertiesToFetch = @[[[entity propertiesByName] objectForKey:attribute]];
+    fetchRequest.returnsDistinctResults = YES;
+    
+    __block NSArray *objects = nil;
+    objects = [context executeFetchRequest:fetchRequest error:nil];
+    
+    return objects;
+}
 
 /***Key Value predicate***/
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value sortDescriptor:(NSSortDescriptor*)descriptor inContext:(NSManagedObjectContext*)context
 {
     if (key && value)
     {
@@ -253,11 +404,11 @@
         {
             NSPredicate *predicate;
             if (key && value)   predicate = [NSPredicate predicateWithFormat:@"self.%@ == %@",key,value];
-            return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor];
+            return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor inContext:context];
         }
         else
         {
-            NSArray *allObjects = [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor];
+            NSArray *allObjects = [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor inContext:context];
             
             NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
             
@@ -270,43 +421,82 @@
     }
     else
     {
-        return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor];
+        return [self allObjectsFromTable:tableName wherePredicate:nil sortDescriptor:descriptor inContext:context];
     }
 }
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value inContext:(NSManagedObjectContext*)context
 {
-    return [self allObjectsFromTable:tableName where:key equals:value sortDescriptor:nil];
+    return [self allObjectsFromTable:tableName where:key equals:value sortDescriptor:nil inContext:context];
 }
 
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value sortDescriptor:(NSSortDescriptor*)descriptor
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value sortDescriptor:(NSSortDescriptor*)descriptor inContext:(NSManagedObjectContext*)context
 {
     NSPredicate *predicate;
-    if (key && value) 
+    if (key && value)
     {
         NSString *predicateString = [NSString stringWithFormat:@"self.%@ contains[c] \"%@\"",key,value];
         predicate = [NSPredicate predicateWithFormat:predicateString];
     }
     
-    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor];
+    return [self allObjectsFromTable:tableName wherePredicate:predicate sortDescriptor:descriptor inContext:context];
 }
 
-- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value
+- (NSArray *)allObjectsFromTable:(NSString*)tableName where:(NSString*)key contains:(id)value inContext:(NSManagedObjectContext*)context
 {
-    return [self allObjectsFromTable:tableName where:key contains:value sortDescriptor:nil];
+    return [self allObjectsFromTable:tableName where:key contains:value sortDescriptor:nil inContext:context];
 }
 
 
-/*First/Last object*/
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName
+/*First object*/
+- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName inContext:(NSManagedObjectContext*)context
 {
-    return [[self allObjectsFromTable:tableName] firstObject];
+    return [self firstObjectFromTable:tableName wherePredicate:nil inContext:context];
 }
 
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName
+- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value inContext:(NSManagedObjectContext*)context
 {
-    return [[self allObjectsFromTable:tableName] lastObject];
+    if (key && value && ([value isKindOfClass:[NSNumber class]] || [value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSDate class]]))
+    {
+        NSPredicate *predicate;
+        if (key && value)   predicate = [NSPredicate predicateWithFormat:@"self.%@ == %@",key,value];
+        
+        return [self firstObjectFromTable:tableName wherePredicate:predicate inContext:context];
+    }
+    else
+    {
+        return [self firstObjectFromTable:tableName wherePredicate:nil inContext:context];
+    }
+}
+
+- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate inContext:(NSManagedObjectContext*)context
+{
+    return [self firstObjectFromTable:tableName
+                       wherePredicate:predicate
+                   includeSubentities:NO
+                            inContext:context];
+}
+
+- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate includeSubentities:(BOOL)includeSubentities inContext:(NSManagedObjectContext*)context
+{
+    context = context ?: _mainContext;
+    
+    //Creating fetch request object for fetching records.
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:tableName];
+    fetchRequest.includesSubentities = includeSubentities;
+    
+    if (predicate)  [fetchRequest setPredicate:predicate];
+    
+    fetchRequest.fetchLimit = 1;
+    
+    __block NSManagedObject* object;
+    
+    NSArray *objects = [context executeFetchRequest:fetchRequest error:nil];
+    
+    object = [objects firstObject];
+    
+    return object;
 }
 
 #pragma mark - Insert & Update Records
@@ -326,65 +516,29 @@
         }
         else if ([value isKindOfClass:[NSNull class]])
         {
-            //            NSLog(@"Found Null");
+            [object setValue:nil forKey:aKey];
         }
     }
     
-    [self save];
     return object;
 }
 
-//Insert objects
-- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary
+//Insert object
+- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary inContext:(NSManagedObjectContext*)context
 {
-    //creating NSManagedObject for inserting records
-    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:tableName inManagedObjectContext:_managedObjectContext];
+    context = context ?: _mainContext;
+    
+    NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:tableName inManagedObjectContext:context];
     
     return [self updateRecord:object withAttribute:dictionary];
 }
 
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create
+//(Insert || Update) object
+- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary updateOnExistKey:(NSString*)key equals:(id)value inContext:(NSManagedObjectContext*)context
 {
-    NSManagedObject *object = [self firstObjectFromTable:tableName];
+    context = context ?: _mainContext;
     
-    if (object == nil && create == YES)    object = [self insertRecordInTable:tableName withAttribute:nil];
-    
-    return object;
-}
-
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName createIfNotExist:(BOOL)create
-{
-    NSManagedObject *object = [self lastObjectFromTable:tableName];
-    
-    if (object == nil && create == YES)    object = [self insertRecordInTable:tableName withAttribute:nil];
-    
-    return object;
-}
-
-
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value
-{
-    return [[self allObjectsFromTable:tableName where:key equals:value] firstObject];
-}
-
-- (NSManagedObject *)firstObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate
-{
-    return [[self allObjectsFromTable:tableName wherePredicate:predicate] firstObject];
-}
-
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName where:(NSString*)key equals:(id)value
-{
-    return [[self allObjectsFromTable:tableName where:key equals:value] lastObject];
-}
-
-- (NSManagedObject *)lastObjectFromTable:(NSString*)tableName wherePredicate:(NSPredicate*)predicate
-{
-    return [[self allObjectsFromTable:tableName wherePredicate:predicate] lastObject];
-}
-
-- (NSManagedObject*)insertRecordInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary updateOnExistKey:(NSString*)key equals:(id)value
-{
-    NSManagedObject *object = [self firstObjectFromTable:tableName where:key equals:value];
+    NSManagedObject *object = [self firstObjectFromTable:tableName where:key equals:value inContext:context];
     
     if (object)
     {
@@ -392,30 +546,66 @@
     }
     else
     {
-        return [self insertRecordInTable:tableName withAttribute:dictionary];
+        return [self insertRecordInTable:tableName withAttribute:dictionary inContext:context];
     }
 }
 
 #pragma mark - Delete Records
 //Delete all records in table.
--(BOOL)flushTable:(NSString*)tableName
+-(void)flushTable:(NSString*)tableName inContext:(NSManagedObjectContext*)context
 {
-    NSArray *records = [self allObjectsFromTable:tableName];
+    NSArray *records = [self allObjectsFromTable:tableName inContext:context];
     
     for (NSManagedObject *object in records)
     {
         [object.managedObjectContext deleteObject:object];
     }
-
-    return [self save];
 }
 
 //Delete object
--(BOOL)deleteRecord:(NSManagedObject*)object
+-(void)deleteRecord:(NSManagedObject*)object
 {
     [object.managedObjectContext deleteObject:object];
+}
 
-    return [self save];
+-(void)performBlockAndSaveNewPrivateContext:(void(^)(NSManagedObjectContext* privateContext))newPrivateContextHandler saveCompletion:(void(^)(void))completionHandler
+{
+    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    privateContext.name = @"PrivateContext";
+    privateContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
+    [privateContext setParentContext:self.mainContext];
+    
+    [privateContext performBlock:^{
+        
+        if (newPrivateContextHandler)
+        {
+            newPrivateContextHandler(privateContext);
+        }
+        
+        //Save
+        if ([privateContext hasChanges])
+        {
+            NSError *error = nil;
+            
+            if (![privateContext save:&error]) {
+                NSLog(@"Error saving: %@", error);
+                NSLog(@"CallStack: %@", [NSThread callStackSymbols]);
+            }
+        }
+        
+        [self saveMainContext:^(BOOL success, NSError *error) {
+            //Main Thread callback after saving main context.
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                
+                if (completionHandler)
+                {
+                    completionHandler();
+                }
+            }];
+            
+            [self saveWriterContext:nil];
+        }];
+    }];
 }
 
 @end
