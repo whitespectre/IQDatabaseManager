@@ -19,10 +19,13 @@
 @interface IQDatabaseManager (ForSubclassEyesOnly)
 
 @property(nonatomic, strong) NSManagedObjectContext *mainContext;
+@property(nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 //Abstract methods. Must override this method in subclasses and return your databaseModel name.
 +(NSURL*)modelURL;
 +(NSURL*)storeURL;
++(NSDictionary*)persistentStoreOptions;
+-(void)willStartInitialization;
 
 #pragma mark - Fetch Table Names & Attribute names for table
 -(NSArray*)tableNames;
@@ -118,6 +121,11 @@
 - (__kindof NSManagedObject*)insertRecordInTable:(NSString*)tableName
                                    withAttribute:(NSDictionary<NSString*,id>*)dictionary
                                        inContext:(NSManagedObjectContext*)context;
+
+//Insert object without context
+- (__kindof NSManagedObject*)insertRecordWithoutContextInTable:(NSString*)tableName
+                                                 withAttribute:(NSDictionary*)dictionary;
+
 //Update object
 - (__kindof NSManagedObject*)updateRecord:(__kindof NSManagedObject*)object
                             withAttribute:(NSDictionary<NSString*,id>*)dictionary;

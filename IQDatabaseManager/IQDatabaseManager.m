@@ -31,15 +31,16 @@
 //Category Methods are used as private methods. Because these are used only inside the class. Not able to access from outside.
 @interface IQDatabaseManager()
 
-@property(nonatomic, strong) NSManagedObjectContext *mainContext;
+@property(nonatomic, strong, readonly) NSManagedObjectContext *mainContext;
 @property(nonatomic, strong, readonly) NSManagedObjectContext *privateWriterContext;
 @property(nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
+@property(nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @end
 
 
 @implementation IQDatabaseManager
-
+@synthesize mainContext = _mainContext, privateWriterContext = _privateWriterContext, persistentStoreCoordinator = _persistentStoreCoordinator, managedObjectModel = _managedObjectModel;
 
 #pragma mark - Abstract method exceptions.
 +(NSURL*)modelURL
@@ -57,51 +58,87 @@
     return storeURL;
 }
 
++(NSDictionary*)persistentStoreOptions
+{
+    // Set Core Data migration options
+    // For automatic lightweight migration set NSMigratePersistentStoresAutomaticallyOption to YES
+    // For automatic migration using a mapping model set NSInferMappingModelAutomaticallyOption to YES
+    
+    return @{NSMigratePersistentStoresAutomaticallyOption:@(YES),
+             NSInferMappingModelAutomaticallyOption:@(YES)};
+}
+
+-(void)willStartInitialization
+{
+    
+}
+
+#pragma mark - Computed Properties
+
+-(NSManagedObjectContext *)privateWriterContext
+{
+    if (_privateWriterContext == nil) {
+        _privateWriterContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        _privateWriterContext.name = @"PrivateWriterContext";
+        [_privateWriterContext setPersistentStoreCoordinator:self.persistentStoreCoordinator];
+    }
+    return _privateWriterContext;
+}
+
+- (NSManagedObjectContext *)mainContext {
+    if (_mainContext == nil) {
+        _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        _mainContext.name = @"MainContext";
+        _mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
+        _mainContext.parentContext = self.privateWriterContext;
+    }
+    return _mainContext;
+}
+
+-(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    if (_persistentStoreCoordinator == nil) {
+        _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
+    }
+    return _persistentStoreCoordinator;
+}
+
+-(NSManagedObjectModel *)managedObjectModel
+{
+    if (_managedObjectModel == nil) {
+        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[self class] modelURL]];
+    }
+    return _managedObjectModel;
+}
+
 #pragma mark - Initialize and Save.
 - (instancetype)init
 {
     self = [super init];
     if (self)
     {
-        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[self class] modelURL]];
+        [self willStartInitialization];
         
-        //Initializing persistentStoreCoordinator with ManagedObjectModel.
         NSURL *storeURL = [[self class] storeURL];
         
         NSError *error = nil;
-        NSPersistentStoreCoordinator *_persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_managedObjectModel];
+        NSPersistentStoreCoordinator *persistentStoreCoordinator = self.persistentStoreCoordinator;
         
-        // Set Core Data migration options
-        // For automatic lightweight migration set NSInferMappingModelAutomaticallyOption to YES
-        // For automatic migration using a mapping model set NSInferMappingModelAutomaticallyOption to YES
-        NSDictionary *optionsDictionary = @{NSMigratePersistentStoresAutomaticallyOption:@(YES),
-                                            NSInferMappingModelAutomaticallyOption:@(YES)};
+        NSDictionary *optionsDictionary = [[self class] persistentStoreOptions];
         
-        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error])
+        if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error])
         {
             NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
             
             //Removign file and now trying once again
             [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
             
-            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+            if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
             {
                 //If issue still not resolved then removing file and aborting.
                 [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
                 abort();
             }
-        }
-        
-        //Initializing mainContext with persistentStoreCoordinator
-        {
-            _privateWriterContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-            _privateWriterContext.name = @"PrivateWriterContext";
-            [_privateWriterContext setPersistentStoreCoordinator:_persistentStoreCoordinator];
-            
-            _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-            _mainContext.name = @"MainContext";
-            _mainContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy;
-            _mainContext.parentContext = _privateWriterContext;
         }
     }
     
@@ -240,6 +277,13 @@
                 }];
             }
         }
+    }];
+}
+
+-(void)saveMainAndWriterContext
+{
+    [self saveMainContext:^(BOOL success, NSError *error) {
+        [self saveWriterContext:nil];
     }];
 }
 
@@ -531,6 +575,14 @@
     NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:tableName inManagedObjectContext:context];
     
     return [self updateRecord:object withAttribute:dictionary];
+}
+
+- (NSManagedObject*)insertRecordWithoutContextInTable:(NSString*)tableName withAttribute:(NSDictionary*)dictionary
+{
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:self.mainContext];
+    NSManagedObject *unassociatedObject = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:nil];
+    
+    return [self updateRecord:unassociatedObject withAttribute:dictionary];
 }
 
 //(Insert || Update) object

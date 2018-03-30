@@ -53,4 +53,6 @@ Faulting is a mechanism Core Data employs to reduce your application’s memory 
 //Save writer context
 -(void)saveWriterContext:(void(^)(BOOL success, NSError *error))completionHandler;
 
+-(void)saveMainAndWriterContext;
+
 @end

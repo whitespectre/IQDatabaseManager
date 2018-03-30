@@ -15,6 +15,10 @@
     "ios": "8.0"
   },
   "source_files": "IQDatabaseManager/**/*.{h,m}",
+  "public_header_files": [
+    "IQDatabaseManager/IQDatabaseManager.h",
+    "IQDatabaseManager/IQDatabaseManagerSubclass.h"
+  ],
   "frameworks": [
     "CoreData",
     "Foundation"
