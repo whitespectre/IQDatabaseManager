@@ -139,7 +139,7 @@
         {
             if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error])
             {
-                NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
+                [self logPersistentStoreError:error];
                 abort();
             }
         }
@@ -324,7 +324,10 @@
     return attributeDictionary;
 }
 
-
+-(void)logPersistentStoreError:(NSError *)error
+{
+    NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
+}
 
 #pragma mark - Fetch Records
 
