@@ -139,17 +139,8 @@
         {
             if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:optionsDictionary error:&error])
             {
-                NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
-                
-                //Removign file and now trying once again
-                [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-                
-                if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
-                {
-                    //If issue still not resolved then removing file and aborting.
-                    [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
-                    abort();
-                }
+                [self logPersistentStoreError:error];
+                abort();
             }
         }
     }
@@ -333,7 +324,10 @@
     return attributeDictionary;
 }
 
-
+-(void)logPersistentStoreError:(NSError *)error
+{
+    NSLog(@"PersistentStore Error: %@, %@", error, [error userInfo]);
+}
 
 #pragma mark - Fetch Records
 
